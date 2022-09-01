@@ -1,4 +1,4 @@
-package com.ada.software.design.principles.lsp;
+package com.ada.software.design.principles.isp;
 
 /**
  *
