@@ -4,7 +4,7 @@ package com.ada.software.design.principles.isp;
  *
  * <b><code></code></b>
  * <p/>
- * 会飞的接口
+ * 会飞接口
  * <p/>
  * <b>Creation Time:</b> 2022/9/1 16:51
  * @author xiewn
