@@ -10,7 +10,7 @@ package com.ada.software.design.factory.simple;
  * @Author xwn
  * @Version 1.0.0.1
  */
-public class CourseTest {
+public class SimpleFactoryTest {
     public static void main(String[] args) {
         CourseFactory courseFactory = new CourseFactory();
         ICourse course = courseFactory.createCourse(JavaCourse.class);
