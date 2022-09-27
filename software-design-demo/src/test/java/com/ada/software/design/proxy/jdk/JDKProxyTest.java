@@ -1,6 +1,10 @@
 package com.ada.software.design.proxy.jdk;
 
+import java.io.FileOutputStream;
 import java.lang.reflect.Method;
+//import sun.misc.ProxyGenerator;
+
+import com.ada.software.design.proxy.Person;
 
 /**
  *
@@ -19,5 +23,11 @@ public class JDKProxyTest {
 		Object obj = new JdkMatchmaker().getInstance(new Girl());
 		Method m = obj.getClass().getMethod("findLove", null);
 		m.invoke(obj);
+
+		//通过反编译工具可以查看源代码
+		//byte [] bytes = ProxyGenerator.generateProxyClass("$Proxy0",new Class[]{Person.class});
+		//FileOutputStream os = new FileOutputStream("E://$Proxy0.class");
+		//os.write(bytes);
+		//os.close();
 	}
 }
