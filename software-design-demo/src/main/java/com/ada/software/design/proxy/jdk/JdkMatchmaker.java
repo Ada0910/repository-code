@@ -36,7 +36,7 @@ public class JdkMatchmaker implements InvocationHandler {
 		before();
 		Object obj = method.invoke(this.target, args);
 		after();
-		return null;
+		return obj;
 	}
 
 	/**
