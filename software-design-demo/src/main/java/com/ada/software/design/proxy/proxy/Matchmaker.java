@@ -29,7 +29,7 @@ public class Matchmaker implements MyInvocationHandler {
 	}
 
 	public Object getInstance(Object obj) {
-		this.target = target;
+		this.target = obj;
 		Class<?> clazz = target.getClass();
 		return MyProxy.newProxyInstance(new MyClassLoader(), clazz.getInterfaces(), this);
 	}
