@@ -101,6 +101,8 @@ sudo systemctl enable docker
   docker ps
 - 删除镜像
   docker rmi -f hello-world
+- 删除container
+  docker rm
 
   ## Docker部署Tomcat
 
