@@ -1,8 +1,11 @@
 package com.ada.provider.handler;
 
+import com.ada.api.request.RpcRequest;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.reflect.Method;
 import java.net.Socket;
 
 /**
@@ -19,9 +22,11 @@ import java.net.Socket;
  */
 public class ProcessorHandler implements Runnable {
 	private Socket socket;
+	private Object service;
 
-	public ProcessorHandler(Socket socket) {
+	public ProcessorHandler(Socket socket, Object service) {
 		this.socket = socket;
+		this.service = service;
 	}
 
 	public Socket getSocket() {
@@ -42,10 +47,55 @@ public class ProcessorHandler implements Runnable {
 
 		try {
 			objectInputStream = new ObjectInputStream(socket.getInputStream());
-			// 输入流有什么东西
-			// TODO
-		} catch (IOException e) {
+			// 输入流有什么东西-请求参数，方法名称、参数
+			RpcRequest rpcRequest = (RpcRequest) objectInputStream.readObject();
+			Object result = invoke(rpcRequest);
+
+			// 输出
+			objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+			objectOutputStream.writeObject(result);
+			objectOutputStream.flush();
+		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			if (objectInputStream != null) {
+				try {
+					objectInputStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+
+			if (objectOutputStream != null) {
+				try {
+					objectOutputStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
+
+	/**
+	 * 反射调用
+	 */
+	private Object invoke(RpcRequest request) throws Exception {
+		// 获取实参
+		Object[] parameters = request.getParameters();
+		// 实例化参数
+		Class<?>[] types = new Class[parameters.length];
+
+		for (int i = 0; i < parameters.length; i++) {
+			types[i] = parameters[i].getClass();
+		}
+
+		// 实例化
+		Class<?> clazz = Class.forName(request.getClassName());
+		// 反射调用方法
+		Method method = clazz.getMethod(request.getClassName(), types);
+		// 调用,调用的是一个已经实例化的对象
+		Object result = method.invoke(service, parameters);
+		return result;
+	}
+
 }

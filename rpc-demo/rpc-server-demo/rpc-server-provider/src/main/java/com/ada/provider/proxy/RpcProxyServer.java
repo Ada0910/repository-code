@@ -25,7 +25,7 @@ public class RpcProxyServer {
 	// 线程池技术
 	ExecutorService executorService = Executors.newCachedThreadPool();
 
-	public void publisher(int port) throws IOException {
+	public void publisher(Object service,int port) throws IOException {
 		ServerSocket serverSocket = null;
 
 		try {
@@ -33,7 +33,7 @@ public class RpcProxyServer {
 			while (true) {
 				Socket socket = serverSocket.accept();
 				//每个socket是交个线程池来处理
-				executorService.execute(new ProcessorHandler(socket));
+				executorService.execute(new ProcessorHandler(socket,service));
 
 
 			}
