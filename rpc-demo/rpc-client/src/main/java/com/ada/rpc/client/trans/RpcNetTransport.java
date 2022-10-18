@@ -30,7 +30,7 @@ public class RpcNetTransport {
 
 	// 发送对象
 	public Object send(RpcRequest request) {
-		Socket socket = null;
+		Socket socket= null;
 		Object result = null;
 
 		ObjectOutputStream outputStream = null;
