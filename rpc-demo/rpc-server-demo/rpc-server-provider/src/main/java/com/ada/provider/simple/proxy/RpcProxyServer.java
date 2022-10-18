@@ -1,6 +1,6 @@
-package com.ada.provider.proxy;
+package com.ada.provider.simple.proxy;
 
-import com.ada.provider.handler.ProcessorHandler;
+import com.ada.provider.simple.handler.ProcessorHandler;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -34,8 +34,6 @@ public class RpcProxyServer {
 				Socket socket = serverSocket.accept();
 				//每个socket是交个线程池来处理
 				executorService.execute(new ProcessorHandler(socket,service));
-
-
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

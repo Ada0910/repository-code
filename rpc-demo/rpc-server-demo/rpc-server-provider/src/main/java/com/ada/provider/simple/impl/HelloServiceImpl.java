@@ -1,7 +1,8 @@
-package com.ada.provider.impl;
+package com.ada.provider.simple.impl;
 
 import com.ada.api.dto.User;
 import com.ada.api.service.IHelloService;
+import com.ada.provider.spring.anno.RpcService;
 
 /**
  *

@@ -1,4 +1,4 @@
-package com.ada.provider.handler;
+package com.ada.provider.simple.handler;
 
 import com.ada.api.request.RpcRequest;
 
@@ -82,18 +82,29 @@ public class ProcessorHandler implements Runnable {
 	private Object invoke(RpcRequest request) throws Exception {
 		// 获取实参
 		Object[] parameters = request.getParameters();
-		// 实例化参数
-		Class<?>[] types = new Class[parameters.length];
+		if (parameters != null) {
 
-		for (int i = 0; i < parameters.length; i++) {
-			types[i] = parameters[i].getClass();
+			// 实例化参数
+			Class<?>[] types = new Class[parameters.length];
+
+			for (int i = 0; i < parameters.length; i++) {
+				types[i] = parameters[i].getClass();
+			}
+
+			// 实例化
+			Class<?> clazz = Class.forName(request.getClassName());
+			// 反射调用方法
+			Method method = clazz.getMethod(request.getMethodName(), types);
+			// 调用,调用的是一个已经实例化的对象
+			Object result = method.invoke(service, parameters);
+			return result;
 		}
+		//跟去请求的类进行加载
+		Class clazz = Class.forName(request.getClassName());
+		//sayHello, saveUser找到这个类中的方法
+		Method method = clazz.getMethod(request.getMethodName());
 
-		// 实例化
-		Class<?> clazz = Class.forName(request.getClassName());
-		// 反射调用方法
-		Method method = clazz.getMethod(request.getClassName(), types);
-		// 调用,调用的是一个已经实例化的对象
+		//HelloServiceImpl 进行反射调用
 		Object result = method.invoke(service, parameters);
 		return result;
 	}
