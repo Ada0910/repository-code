@@ -1,4 +1,4 @@
-package com.ada.rpc.client.handler;
+package com.ada.rpc.client.simple.handler;
 
 import com.ada.api.request.RpcRequest;
 import com.ada.rpc.client.trans.RpcNetTransport;
@@ -36,7 +36,7 @@ public class RemoteInvocationHandler implements InvocationHandler {
 		rpcRequest.setClassName(method.getDeclaringClass().getName());
 		rpcRequest.setMethodName(method.getName());
 		rpcRequest.setParameters(args);
-
+		System.out.println(method.getDeclaringClass().getName()+":"+method.getName()+":"+args);
 		// 通过网络传输
 		RpcNetTransport rpcNetTransport = new RpcNetTransport(host, port);
 		Object object = rpcNetTransport.send(rpcRequest);

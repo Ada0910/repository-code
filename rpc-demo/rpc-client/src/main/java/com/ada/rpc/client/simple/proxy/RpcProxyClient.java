@@ -1,6 +1,6 @@
-package com.ada.rpc.client.proxy;
+package com.ada.rpc.client.simple.proxy;
 
-import com.ada.rpc.client.handler.RemoteInvocationHandler;
+import com.ada.rpc.client.simple.handler.RemoteInvocationHandler;
 
 import java.lang.reflect.Proxy;
 
