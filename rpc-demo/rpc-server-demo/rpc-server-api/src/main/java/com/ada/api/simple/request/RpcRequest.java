@@ -1,4 +1,4 @@
-package com.ada.api.request;
+package com.ada.api.simple.request;
 
 import java.io.Serializable;
 

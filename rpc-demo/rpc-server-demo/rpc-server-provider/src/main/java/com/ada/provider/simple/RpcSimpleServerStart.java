@@ -1,6 +1,6 @@
 package com.ada.provider.simple;
 
-import com.ada.api.service.IHelloService;
+import com.ada.api.simple.service.IHelloService;
 import com.ada.provider.simple.impl.HelloServiceImpl;
 import com.ada.provider.simple.proxy.RpcProxyServer;
 

@@ -1,6 +1,6 @@
 package com.ada.rpc.client.trans;
 
-import com.ada.api.request.RpcRequest;
+import com.ada.api.simple.request.RpcRequest;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

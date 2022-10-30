@@ -1,6 +1,6 @@
 package com.ada.provider.spring.handler;
 
-import com.ada.api.request.RpcRequest;
+import com.ada.api.simple.request.RpcRequest;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;

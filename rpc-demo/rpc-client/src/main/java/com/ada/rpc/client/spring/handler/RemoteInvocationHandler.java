@@ -1,6 +1,6 @@
 package com.ada.rpc.client.spring.handler;
 
-import com.ada.api.request.RpcRequest;
+import com.ada.api.simple.request.RpcRequest;
 import com.ada.rpc.client.trans.RpcNetTransport;
 
 import java.lang.reflect.InvocationHandler;

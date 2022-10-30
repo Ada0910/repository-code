@@ -1,6 +1,6 @@
 package com.ada.rpc.client.spring;
 
-import com.ada.api.service.IHelloService;
+import com.ada.api.simple.service.IHelloService;
 import com.ada.rpc.client.spring.config.SpringConfig;
 import com.ada.rpc.client.spring.proxy.RpcProxyClient;
 import org.springframework.context.ApplicationContext;

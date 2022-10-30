@@ -1,4 +1,4 @@
-package com.ada.api.dto;
+package com.ada.api.simple.dto;
 
 /**
  *

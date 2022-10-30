@@ -1,6 +1,6 @@
-package com.ada.api.service;
+package com.ada.api.simple.service;
 
-import com.ada.api.dto.User;
+import com.ada.api.simple.dto.User;
 
 /**
  *
