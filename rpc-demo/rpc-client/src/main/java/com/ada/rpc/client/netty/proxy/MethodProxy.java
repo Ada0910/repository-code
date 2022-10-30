@@ -35,11 +35,16 @@ public class MethodProxy implements InvocationHandler {
 		this.clazz = clazz;
 	}
 
+	/**
+	 * 将本地调用通过代理，转化成网络调用
+	 */
 	@Override
 	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+		// 判断是否是个实现类
 		if (Object.class.equals(method.getDeclaringClass())) {
 			return method.invoke(this, args);
 		} else {
+			// 接口
 			return rpcInvoke(proxy, method, args);
 		}
 	}
@@ -48,14 +53,17 @@ public class MethodProxy implements InvocationHandler {
 	 * RPC调用
 	 */
 	private Object rpcInvoke(Object proxy, Method method, Object[] args) {
-		// 传输协议封装
 		//传输协议封装
 		InvokerProtocol msg = new InvokerProtocol();
 		msg.setClassName(this.clazz.getName());
 		msg.setMethodName(method.getName());
 		msg.setValues(args);
 		msg.setParames(method.getParameterTypes());
+
+
 		final RpcProxyHandler consumerHandler = new RpcProxyHandler();
+
+		// 发起网络请求
 		EventLoopGroup group = new NioEventLoopGroup();
 		try {
 			Bootstrap b = new Bootstrap();
@@ -71,10 +79,11 @@ public class MethodProxy implements InvocationHandler {
 					 lengthAdjustment：要添加到长度字段值的补偿值
 					 initialBytesToStrip：从解码帧中去除的第一个字节数
 					 */
+					// 下面两个是对数据的解析
 					pipeline.addLast("frameDecoder", new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 0, 4, 0, 4));
 					//自定义协议编码器
 					pipeline.addLast("frameEncoder", new LengthFieldPrepender(4));
-					//对象参数类型编码器
+					//对象参数类型编码器（反序列化）
 					pipeline.addLast("encoder", new ObjectEncoder());
 					//对象参数类型解码器
 					pipeline.addLast("decoder", new ObjectDecoder(Integer.MAX_VALUE, ClassResolvers.cacheDisabled(null)));

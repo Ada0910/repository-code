@@ -44,13 +44,17 @@ public class RpcRegistry {
 	 * 启动方法
 	 */
 	private void start() {
+		// server初始化
+		// 主线程初始化
 		EventLoopGroup bossGroup = new NioEventLoopGroup();
+		// work线程初始化
 		EventLoopGroup workerGroup = new NioEventLoopGroup();
 
 		try {
 			ServerBootstrap b = new ServerBootstrap();
 			b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class).childHandler(new ChannelInitializer<SocketChannel>() {
 
+				// 客户端连接过来之后，就会调用这个方法，把所有业务的处理逻辑归总到一个队列中
 				@Override
 				protected void initChannel(SocketChannel ch) throws Exception {
 					ChannelPipeline pipeline = ch.pipeline();
@@ -62,16 +66,21 @@ public class RpcRegistry {
 					 lengthAdjustment：要添加到长度字段值的补偿值
 					 initialBytesToStrip：从解码帧中去除的第一个字节数
 					 */
+
+					// 下面两个是还原InvokerProtocol对象
+					// 因为是自定义的协议，所以需要编码和解码（数据的解析）
 					pipeline.addLast(new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 0, 4, 0, 4));
 					//自定义协议编码器
 					pipeline.addLast(new LengthFieldPrepender(4));
-					//对象参数类型编码器
+					//对象参数类型编码器（下面两个是还原形参和实参）
 					pipeline.addLast("encoder", new ObjectEncoder());
 					//对象参数类型解码器
 					pipeline.addLast("decoder", new ObjectDecoder(Integer.MAX_VALUE, ClassResolvers.cacheDisabled(null)));
+					//执行属于自己的逻辑
 					pipeline.addLast(new RegistryHandler());
 				}
 			}).option(ChannelOption.SO_BACKLOG, 128).childOption(ChannelOption.SO_KEEPALIVE, true);
+			// 线程异步回调（启动服务，相当于开始轮询）
 			ChannelFuture future = b.bind(port).sync();
 			System.out.println("My Netty RPC Registry start listen at " + port);
 			future.channel().closeFuture().sync();

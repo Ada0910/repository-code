@@ -25,7 +25,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class RegistryHandler extends ChannelInboundHandlerAdapter {
 
-	//用保存所有可用的服务
+	//用保存所有可用的服务<接口的名字，实例实现方法>
 	public static ConcurrentHashMap<String, Object> registryMap = new ConcurrentHashMap<String, Object>();
 
 
@@ -57,7 +57,7 @@ public class RegistryHandler extends ChannelInboundHandlerAdapter {
 
 
 	/**
-	 * 把扫描到的类加载注册到容器中
+	 * 把扫描到的类加载注册到容器中（注册，对外提供的名字）
 	 */
 	private void doRegister() {
 		if (classNames.size() == 0) {
@@ -75,20 +75,30 @@ public class RegistryHandler extends ChannelInboundHandlerAdapter {
 
 	}
 
+	/**
+	 * 有客户端连上的时候，就会触发，回调
+	 */
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 		Object result = new Object();
+		// 客户端连接过来之后，获取InvokerProtocol对象，并解析
 		InvokerProtocol request = (InvokerProtocol) msg;
+
+		// 找到容器里面已经注册好的服务
 		if (registryMap.containsKey(request.getClassName())) {
 			Object clazz = registryMap.get(request.getClassName());
 			Method method = clazz.getClass().getMethod(request.getMethodName(), request.getParames());
-			result = method.invoke(clazz, method);
+			result = method.invoke(clazz, request.getValues());
 		}
+		//通过网络流写会客户端
 		ctx.write(result);
 		ctx.flush();
 		ctx.close();
 	}
 
+	/**
+	 * 连接发生异常就会调用
+	 */
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
 		cause.printStackTrace();
