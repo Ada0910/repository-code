@@ -1,0 +1,2 @@
+# SPI??
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.ada.core.JavaConfig
