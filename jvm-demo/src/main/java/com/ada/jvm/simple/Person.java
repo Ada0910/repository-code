@@ -3,7 +3,7 @@ package com.ada.jvm.simple;
 /**
  *
  * <b><code></code></b>
- * <p/>  
+ * <p/>
  *
  * <p/>
  *
@@ -27,7 +27,9 @@ public class Person {
 	}
 
 
-	public int calc(int op1, int op2) {
-		return op1 + op2;
+	public static int calc(int op1, int op2) {
+		op1 = 3;
+		int result = op1 + op2;
+		return result;
 	}
 }
