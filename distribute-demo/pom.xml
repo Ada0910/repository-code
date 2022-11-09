@@ -27,6 +27,20 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.56</version>
+            <optional>true</optional><!--可选-->
+        </dependency>
+<!--        支持多种文件配置的maven依赖-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <version>2.1.6.RELEASE</version>
+            <optional>true</optional>
+        </dependency>
     </dependencies>
 
     <build>
