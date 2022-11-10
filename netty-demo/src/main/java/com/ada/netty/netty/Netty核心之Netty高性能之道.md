@@ -4,21 +4,21 @@ NioEventLoop聚合了多路复用器Selector，可以同时并发处理成百上
 
 也就是一个线程池（异步非阻塞通信）
 
-## 零拷贝
+（1） 零拷贝
 
 接收和发送ByteBuffer使用堆外直接内存进行Socket读写
 
-## 内存池
+（2） 内存池
 
-## 高效的Reactor线程模型
+（3） 高效的Reactor线程模型
 
-## 无锁化串行设计理念
+（4） 无锁化串行设计理念
 
-## 高效的并发编程
+（5） 高效的并发编程
 
-## 高性能的序列化框架
+（6） 高性能的序列化框架
 
-## 灵活的TCP参数配置能力
+（7） 灵活的TCP参数配置能力
 
 # Netty核心组件
 
@@ -30,15 +30,11 @@ Provider获得一个Selector
 显示的设置一个configureBlocking(true)
 调用原生的bind()
 
-
 ## NioEventLoop核心逻辑
-
-
 
 ## Pipeline核心逻辑
 
 ## ByteBuf核心逻辑
 
 # Netty常见的性能调优
-
 
