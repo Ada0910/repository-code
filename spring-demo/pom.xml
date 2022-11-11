@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.ada</groupId>
-	<artifactId>srping-demo</artifactId>
+	<artifactId>spring-demo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>srping-demo</name>
 	<description>srping-demo</description>
