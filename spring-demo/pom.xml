@@ -11,8 +11,8 @@
 	<groupId>com.ada</groupId>
 	<artifactId>spring-demo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>srping-demo</name>
-	<description>srping-demo</description>
+	<name>spring-demo</name>
+	<description>spring-demo</description>
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
