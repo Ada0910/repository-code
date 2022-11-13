@@ -2,6 +2,7 @@ package com.ada.rpc.client.spring.proxy;
 
 
 
+import com.ada.rpc.client.discovery.IServerDiscovery;
 import com.ada.rpc.client.spring.handler.RemoteInvocationHandler;
 
 import java.lang.reflect.Proxy;
@@ -19,8 +20,15 @@ import java.lang.reflect.Proxy;
  *
  */
 public class RpcProxyClient {
+
+	private IServerDiscovery serverDiscovery;
+
+	public RpcProxyClient(IServerDiscovery serverDiscovery) {
+		this.serverDiscovery = serverDiscovery;
+	}
+
 	public <T> T clientProxy(final Class<T> interfaceClazz, final String host, final int port) {
 
-		return (T) Proxy.newProxyInstance(interfaceClazz.getClassLoader(), new Class<?>[]{interfaceClazz}, new RemoteInvocationHandler(host, port));
+		return (T) Proxy.newProxyInstance(interfaceClazz.getClassLoader(), new Class<?>[]{interfaceClazz}, new RemoteInvocationHandler(host, port,serverDiscovery));
 	}
 }

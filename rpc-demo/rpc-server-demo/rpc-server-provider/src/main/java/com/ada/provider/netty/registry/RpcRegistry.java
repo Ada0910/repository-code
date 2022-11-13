@@ -1,6 +1,7 @@
 package com.ada.provider.netty.registry;
 
 import com.ada.provider.netty.handler.RegistryHandler;
+import com.ada.provider.registry.IRegistryCenter;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -25,6 +26,7 @@ import io.netty.handler.codec.serialization.ObjectEncoder;
  *
  */
 public class RpcRegistry {
+
 
 	// 端口号
 	private final int port;

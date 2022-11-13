@@ -1,5 +1,7 @@
 package com.ada.provider.spring.server;
 
+import com.ada.provider.registry.IRegistryCenter;
+import com.ada.provider.registry.RegistryCenterWithZk;
 import com.ada.provider.spring.anno.RpcService;
 import com.ada.provider.spring.handler.ProcessorHandler;
 import org.springframework.beans.BeansException;
@@ -10,8 +12,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -35,6 +39,8 @@ public class RpcServer implements ApplicationContextAware, InitializingBean {
 	ExecutorService executorService = Executors.newCachedThreadPool();
 
 	private Map<String, Object> handlerMap = new HashMap<>();
+
+	private IRegistryCenter registryCenter = new RegistryCenterWithZk();
 
 	private int port;
 
@@ -75,11 +81,25 @@ public class RpcServer implements ApplicationContextAware, InitializingBean {
 				String version = rpcService.version();
 				if (!StringUtils.isEmpty(version)) {
 					serviceName += "-" + version;
-					System.out.println("handlerMap的KEY的服务名是："+serviceName);
+					System.out.println("handlerMap的KEY的服务名是：" + serviceName);
 				}
 
 				handlerMap.put(serviceName, serviceBean);
+				registryCenter.registry(serviceName, getAddress() + ":" + port);
 			}
 		}
+	}
+
+	/**
+	 * 获取本机的地址
+	 */
+	private String getAddress() {
+		InetAddress inetAddress = null;
+		try {
+			inetAddress = InetAddress.getLocalHost();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+		return inetAddress.getHostAddress();
 	}
 }
