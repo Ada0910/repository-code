@@ -23,8 +23,11 @@ public class RpcProxyClient {
 
 	private IServerDiscovery serverDiscovery;
 
-	public RpcProxyClient(IServerDiscovery serverDiscovery) {
-		this.serverDiscovery = serverDiscovery;
+	// public RpcProxyClient(IServerDiscovery serverDiscovery) {
+	// 	this.serverDiscovery = serverDiscovery;
+	// }
+
+	public RpcProxyClient() {
 	}
 
 	public <T> T clientProxy(final Class<T> interfaceClazz, final String host, final int port) {
