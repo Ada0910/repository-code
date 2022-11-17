@@ -16,6 +16,7 @@
         <module>software-design-demo</module>
         <module>zookeeper-demo</module>
         <module>spring-demo</module>
+        <module>dubbo-demo</module>
     </modules>
 
 </project>
