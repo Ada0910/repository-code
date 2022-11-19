@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans        http://www.springframework.org/schema/beans/spring-beans-4.3.xsd        http://dubbo.apache.org/schema/dubbo        http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
+
+    <!--    没有注册中心的打开下面注释-->
+    <!-- 提供方应用信息，用于计算依赖关系 -->
+    <!--    <dubbo:registry address="N/A"/>-->
+    <!--    &lt;!&ndash;    服务名&ndash;&gt;-->
+    <!--    <dubbo:application name="pay-service"/>-->
+    <!--    &lt;!&ndash;    端口&ndash;&gt;-->
+    <!--    <dubbo:protocol name="dubbo" port="20880"/>-->
+    <!--    &lt;!&ndash; 发布服务&ndash;&gt;-->
+    <!--    <dubbo:service interface="com.ada.api.dubbo.IPayService" ref="payService"/>-->
+    <!--    <bean id="payService" class="com.ada.provider.dubbo.PayServiceImpl"/>-->
+
+    <!--    有注册中心的打开下面注释-->
+    <dubbo:application name="pay-service"/>
+    <!--    端口-->
+    <dubbo:protocol name="dubbo" port="20880"/>
+    <!-- 发布服务-->
+    <!--    配置注册中心-->
+    <dubbo:registry id="rg1" address="zookeeper://127.0.0.1:2181"/>
+
+    <dubbo:service interface="com.ada.api.dubbo.IPayService" ref="payService" protocol="rest" registry="rg1"/>
+    <bean id="payService" class="com.ada.provider.dubbo.PayServiceImpl"/>
+
+    <!--    有注册中心的、且支持多协议的 打开下面注释-->
+    <!--    <dubbo:application name="pay-service"/>-->
+    <!--    &lt;!&ndash;    端口&ndash;&gt;-->
+    <!--    <dubbo:protocol name="dubbo" port="20880"/>-->
+    <!--    &lt;!&ndash; 发布服务&ndash;&gt;-->
+    <!--    &lt;!&ndash;    配置注册中心&ndash;&gt;-->
+    <!--    <dubbo:registry id="rg1" address="zookeeper://127.0.0.1:2181"/>-->
+    <!--    &lt;!&ndash;    webservice协议&ndash;&gt;-->
+    <!--    <dubbo:protocol name="webservice" port="8080" server="jetty"/>-->
+    <!--    <dubbo:service interface="com.ada.api.dubbo.IPayService" ref="payService" protocol="dubbo,webservice"-->
+    <!--                   registry="rg1"/>-->
+    <!--    <bean id="payService" class="com.ada.provider.dubbo.PayServiceImpl"/>-->
+
+</beans>
