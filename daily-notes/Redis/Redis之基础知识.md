@@ -140,7 +140,6 @@ b、embstr, 代表 embstr 格式的 SDS（Simple Dynamic String 简单动态字�
 存储小于 44 个字节的字符串。
 c、raw，存储大于 44 个字节的字符串（3.2 版本之前是 39 字节）。为什么是 39？
 
-
 问题 1、什么是 SDS？
 Redis 中字符串的实现。
 在 3.2 以后的版本中，SDS 又有多种结构（sds.h）：sdshdr5、sdshdr8、sdshdr16、sdshdr32、sdshdr64，用于存储不同的长度的字符串，分别代表 2^5=32byte，
@@ -155,8 +154,6 @@ unsigned char flags; /* 当前字符数组的属性、用来标识到底是 sdsh
 char buf[]; /* 字符串真正的值 */
 };
 ```
-
-
 
 问题 2、为什么 Redis 要用 SDS 实现字符串？
 我们知道，C 语言本身没有字符串类型（只能用字符数组 char[]实现）。
@@ -220,14 +217,124 @@ OK
 限流
 位统计
 
-
 # Hash
+
+## 存储类型
+
+包含键值对的无序散列表。value 只能是字符串，不能嵌套其他类型
+
+同样是存储字符串，Hash 与 String 的主要区别？
+1、把所有相关的值聚集到一个 key 中，节省内存空间
+2、只使用一个 key，减少 key 冲突
+3、当需要批量获取值的时候，只需要使用一个命令，减少内存/IO/CPU 的消耗
+
+Hash 不适合的场景：
+1、Field 不能单独设置过期时间
+2、没有 bit 操作
+3、需要考虑数据量分布的问题（value 值非常大的时候，无法分布到多个节点）
+
+## 操作命令
+
+```
+hset h1 f 6
+hset h1 e 5
+hmset h1 a 1 b 2 c 3 d 4
+
+
+hget h1 a
+hmget h1 a b c d
+hkeys h1
+hvals h1
+hgetall h1
+
+key 操作
+hget exists h1
+hdel h1
+hlen h1
+```
+
+## 存储原理
+
+Redis 的 Hash 本身也是一个 KV 的结构，类似于 Java 中的 HashMap。外层的哈希（Redis KV 的实现）只用到了 hashtable。
+
+当存储 hash 数据类型时，我们把它叫做内层的哈希。内层的哈希底层可以使用两种数据结构实现：
+ziplist：OBJ_ENCODING_ZIPLIST（压缩列表）
+hashtable：OBJ_ENCODING_HT（哈希表）
+
+```
+127.0.0.1:6379> hset h2 f aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+(integer) 1
+127.0.0.1:6379> hset h3 f aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+(integer) 1
+127.0.0.1:6379> object encoding h2
+"ziplist"
+127.0.0.1:6379> object encoding h3
+"hashtable"
+```
+
+### ziplist压缩列表
+
+ziplist 是一个经过特殊编码的双向链表，它不存储指向上一个链表节点和指向下一个链表节点的指针，而是存储上一个节点长度和当前节点长度，通过牺牲部分读写性能，来换取高效的内存空间利用率，是一种时间换空间的思想。只用在字段个数少，字段值小的场景里面
+
+ziplist的内部结构
+
+```
+typedef struct zlentry {
+unsigned int prevrawlensize; /* 上一个链表节点占用的长度 */
+unsigned int prevrawlen; /* 存储上一个链表节点的长度数值所需要的字节数 */
+unsigned int lensize; /* 存储当前链表节点长度数值所需要的字节数 */
+unsigned int len; /* 当前链表节点占用的长度 */
+unsigned int headersize; /* 当前链表节点的头部大小（prevrawlensize + lensize），即非数据域的大小 */
+unsigned char encoding; /* 编码方式 */
+unsigned char *p; /* 压缩链表以字符串的形式保存，该指针指向当前节点起始位置 */
+} zlentry;
+```
+
+![image.png](./assets/1669368527196-image.png)
+
+问题：什么时候使用ziplist存储？
+当 hash 对象同时满足以下两个条件的时候，使用 ziplist 编码：
+1）所有的键值对的健和值的字符串长度都小于等于 64byte（一个英文字母一个字节）；
+2）哈希对象保存的键值对数量小于 512 个
+
+```
+hash-max-ziplist-value 64 // ziplist 中最大能存放的值长度
+hash-max-ziplist-entries 512 // ziplist 中最多能存放的 entry 节点数量
+```
+
+一个哈希对象超过配置的阈值（键和值的长度有>64byte，键值对个数>512 个）时，会转换成哈希表（hashtable）
+
+
+
+## 应用场景
 
 # List列表
 
+## 存储类型
+
+## 操作命令
+
+## 存储原理
+
+## 应用场景
+
 # Set集合
+
+## 存储类型
+
+## 操作命令
+
+## 存储原理
+
+## 应用场景
 
 # ZSet有序集合
 
+## 存储类型
 
+## 操作命令
+
+## 存储原理
+
+## 应用场景
 
