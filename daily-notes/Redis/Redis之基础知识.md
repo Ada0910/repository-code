@@ -217,6 +217,8 @@ OK
 限流
 位统计
 
+9
+
 # Hash
 
 ## 存储类型
@@ -304,37 +306,196 @@ hash-max-ziplist-entries 512 // ziplist 中最多能存放的 entry 节点数量
 
 一个哈希对象超过配置的阈值（键和值的长度有>64byte，键值对个数>512 个）时，会转换成哈希表（hashtable）
 
+hashtable （ dict ）
+在 Redis 中，hashtable 被称为字典（dictionary），它是一个数组+链表的结构。
+源码位置：dict.h
+前面我们知道了，Redis 的 KV 结构是通过一个 dictEntry 来实现的。
+Redis 又对 dictEntry 进行了多层的封装
+![image.png](./assets/1669467798473-image.png)
 
+问题：为什么要定义两个哈希表呢？ht[2]
+redis 的 hash 默认使用的是 ht[0]，ht[1]不会初始化和分配空间。
+哈希表 dictht 是用链地址法来解决碰撞问题的。在这种情况下，哈希表的性能取决
+于它的大小（size 属性）和它所保存的节点的数量（used 属性）之间的比率：
+ 比率在 1:1 时（一个哈希表 ht 只存储一个节点 entry），哈希表的性能最好；
+ 如果节点数量比哈希表的大小要大很多的话（这个比例用 ratio 表示，5 表示平均
+一个 ht 存储 5 个 entry），那么哈希表就会退化成多个链表，哈希表本身的性能
+优势就不再存在。
+在这种情况下需要扩容。Redis 里面的这种操作叫做 rehash。
+rehash 的步骤：
+1、为字符 ht[1]哈希表分配空间，这个哈希表的空间大小取决于要执行的操作，以
+及 ht[0]当前包含的键值对的数量。
+扩展：ht[1]的大小为第一个大于等于 ht[0].used*2。
+2、将所有的 ht[0]上的节点 rehash 到 ht[1]上，重新计算 hash 值和索引，然后放
+入指定的位置。
+3、当 ht[0]全部迁移到了 ht[1]之后，释放 ht[0]的空间，将 ht[1]设置为 ht[0]表，
+并创建新的 ht[1]，为下次 rehash 做准备
+
+问题：什么时候触发扩容？
+负载因子（ 源码位置：dict.c ）：
+
+```
+static int dict_can_resize = 1;
+static unsigned int dict_force_resize_ratio = 5;
+ratio = used / size，已使用节点与字典大小的比例
+dict_can_resize 为 1 并且 dict_force_resize_ratio 已使用节点数和字典大小之间的比率超过 1：5，触发扩容
+```
 
 ## 应用场景
+
+String 可以做的事情，Hash 都可以做
+存储对象类型
+购物车
 
 # List列表
 
 ## 存储类型
 
+存储有序的字符串（从左到右），元素可以重复。可以充当队列和栈的角色
+
+
 ## 操作命令
+
+元素增减：
+
+```
+lpush queue a
+lpush queue b c
+rpush queue d e
+lpop queue
+rpop queue
+​
+blpop queue
+brpop queue
+取值
+lindex queue 0
+lrange queue 0 -1
+```
+
+![image.png](./assets/1669468901816-image.png)
+
+
 
 ## 存储原理
 
+在早期的版本中，数据量较小时用 ziplist 存储，达到临界值时转换为 linkedlist 进行存储，分别对应 OBJ_ENCODING_ZIPLIST 和BJ_ENCODING_LINKEDLIST 。
+
+3.2 版本之后，统一用 quicklist 来存储。quicklist 存储了一个双向链表，每个节点
+都是一个 ziplis
+
+quicklist
+quicklist（快速列表）是 ziplist 和 linkedlist 的结合体。
+quicklist.h，head 和 tail 指向双向列表的表头和表尾
+
+```
+typedef struct quicklist {
+quicklistNode *head; /* 指向双向列表的表头 */
+quicklistNode *tail; /* 指向双向列表的表尾 */
+unsigned long count; /* 所有的 ziplist 中一共存了多少个元素 */
+unsigned long len; /* 双向链表的长度，node 的数量 */
+int fill : 16; /* fill factor for individual nodes */
+unsigned int compress : 16; /* 压缩深度，0：不压缩； */
+} quicklist;
+```
+
 ## 应用场景
+
+用户 消息时间线
+消息队列
+
+List 提供了两个阻塞的弹出操作：BLPOP/BRPOP，可以设置超时时间。
+
+BLPOP：BLPOP key1 timeout 移出并获取列表的第一个元素， 如果列表没有元素
+会阻塞列表直到等待超时或发现可弹出元素为止。
+BRPOP：BRPOP key1 timeout 移出并获取列表的最后一个元素， 如果列表没有元
+素会阻塞列表直到等待超时或发现可弹出元素为止。
+队列：先进先出：rpush blpop，左头右尾，右边进入队列，左边出队列。
+栈：先进后出：rpush brpop
 
 # Set集合
 
 ## 存储类型
 
+String 类型的无序集合，最大存储数量 2^32-1（40 亿左右）
+
 ## 操作命令
+
+添加一个或者多个元素
+sadd myset a b c d e f g
+获取所有元素
+smembers myset
+统计元素个数
+scard myset
+随机获取一个元素
+srandmember key
+随机弹出一个元素
+spop myset
+移除一个或者多个元素
+srem myset d e f
+查看元素是否存在
+sismember myset a
 
 ## 存储原理
 
+Redis 用 intset 或 hashtable 存储 set。如果元素都是整数类型，就用 inset 存储。
+如果不是整数类型，就用 hashtable（数组+链表的存来储结构）。
+问题：KV 怎么存储 set 的元素？key 就是元素的值，value 为 null。
+如果元素个数超过 512 个，也会用 hashtable 存储
+
 ## 应用场景
+
+抽奖
+点赞、签到、打卡
+商品标签
+用户关注、推荐模型
 
 # ZSet有序集合
 
+
+
 ## 存储类型
+
+sorted set，有序的 set，每个元素有个 score。
+score 相同时，按照 key 的 ASCII 码排序
 
 ## 操作命令
 
+添加元素
+zadd myzset 10 java 20 php 30 ruby 40 cpp 50 python
+获取全部元素
+zrange myzset 0 -1 withscores
+zrevrange myzset 0 -1 withscores
+根据分值区间获取元素
+zrangebyscore myzset 20 30
+移除元素
+也可以根据 score rank 删除
+zrem myzset php cpp
+统计元素个数
+zcard myzset
+分值递增
+zincrby myzset 5 python
+根据分值统计个数
+zcount myzset 20 60
+获取元素 rank
+zrank myzset java
+获取元素 score
+zsocre myzset java
+也有倒序的 rev 操作（reverse）
+
 ## 存储原理
 
+同时满足以下条件时使用 ziplist 编码：
+ 元素数量小于 128 个
+ 所有 member 的长度都小于 64 字节
+在 ziplist 的内部，按照 score 排序递增来存储。插入的时候要移动之后的数据。
+
+超过阈值之后，使用 skiplist+dict 存储
+
+skiplist
+
+在有序链表的基础上，增加多一个新的指针，但这些新加的指针只有原来的一半，故效率高
+
 ## 应用场景
+
+排行榜
 
