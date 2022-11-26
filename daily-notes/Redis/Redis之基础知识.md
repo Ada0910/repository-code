@@ -353,7 +353,6 @@ String 可以做的事情，Hash 都可以做
 
 存储有序的字符串（从左到右），元素可以重复。可以充当队列和栈的角色
 
-
 ## 操作命令
 
 元素增减：
@@ -364,7 +363,7 @@ lpush queue b c
 rpush queue d e
 lpop queue
 rpop queue
-​
+
 blpop queue
 brpop queue
 取值
@@ -374,14 +373,12 @@ lrange queue 0 -1
 
 ![image.png](./assets/1669468901816-image.png)
 
-
-
 ## 存储原理
 
 在早期的版本中，数据量较小时用 ziplist 存储，达到临界值时转换为 linkedlist 进行存储，分别对应 OBJ_ENCODING_ZIPLIST 和BJ_ENCODING_LINKEDLIST 。
 
 3.2 版本之后，统一用 quicklist 来存储。quicklist 存储了一个双向链表，每个节点
-都是一个 ziplis
+都是一个 ziplist
 
 quicklist
 quicklist（快速列表）是 ziplist 和 linkedlist 的结合体。
@@ -397,6 +394,8 @@ int fill : 16; /* fill factor for individual nodes */
 unsigned int compress : 16; /* 压缩深度，0：不压缩； */
 } quicklist;
 ```
+
+![image.png](./assets/1669473933387-image.png)
 
 ## 应用场景
 
@@ -450,8 +449,6 @@ Redis 用 intset 或 hashtable 存储 set。如果元素都是整数类型，就
 用户关注、推荐模型
 
 # ZSet有序集合
-
-
 
 ## 存储类型
 
