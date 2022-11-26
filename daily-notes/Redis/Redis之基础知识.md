@@ -140,7 +140,6 @@ b、embstr, 代表 embstr 格式的 SDS（Simple Dynamic String 简单动态字�
 存储小于 44 个字节的字符串。
 c、raw，存储大于 44 个字节的字符串（3.2 版本之前是 39 字节）。为什么是 39？
 
-
 问题 1、什么是 SDS？
 Redis 中字符串的实现。
 在 3.2 以后的版本中，SDS 又有多种结构（sds.h）：sdshdr5、sdshdr8、sdshdr16、sdshdr32、sdshdr64，用于存储不同的长度的字符串，分别代表 2^5=32byte，
