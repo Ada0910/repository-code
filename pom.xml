@@ -17,6 +17,7 @@
         <module>zookeeper-demo</module>
         <module>spring-demo</module>
         <module>dubbo-demo</module>
+        <module>rabbitmq-demo</module>
     </modules>
 
 </project>
