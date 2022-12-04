@@ -172,7 +172,3 @@ RabbitMQ 本身不支持延迟队列，总的来说有三种实现方案：
 
 Spring AMQP 是对 Spring 基于 AMQP 的消息收发解决方案，它是一个抽象层，不依赖于特定的 AMQP Broker 实现和客户端的抽象，所以可以很方便地替换。比如我们可以使用 spring-rabbit 来实现
 
-
-
-
-
