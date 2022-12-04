@@ -1,6 +1,6 @@
 package com.ada.rabbitmq.api;
 
-import com.gupaoedu.util.ResourceUtil;
+import com.ada.rabbitmq.api.util.ResourceUtil;
 import com.rabbitmq.client.*;
 import com.rabbitmq.client.Consumer;
 
