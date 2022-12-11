@@ -24,7 +24,12 @@ public class ThreadA extends Thread {
         synchronized (lock) {
             System.out.println("start ThreadA");
             try {
-                lock.wait(); //实现线程的阻塞
+                /**
+                 * 实现线程的阻塞
+                 * 这句话就是把当前的线程移到等待队列中，等待有对应的notify或者notifyAll来唤醒（从等待队列中把该线程移到同步队列中，可以重新竞争锁）
+                 * 同时会释放锁，不然其他线程永远是获取不到锁的（lock这个锁）
+                 */
+                lock.wait();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
