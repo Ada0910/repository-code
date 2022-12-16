@@ -97,11 +97,13 @@ jinfo -flag name PID
 查看某个java进程的name属性的值
 
 jinfo -flag MaxHeapSize PID
+
 jinfo -flag UseG1GC PID
 
 （3）修改
 参数只有被标记为manageable的flags可以被实时修改
-jinfo -flag [+|-] PID
+jinfo -flag name=value PID
+
 jinfo -flag = PID
 
 （4）查看曾经赋过值的一些参数
@@ -111,7 +113,7 @@ jinfo -flags PID
 
 (1)查看虚拟机性能统计信息
 （2）查看类装载信息
-jstat -class PID 1000 10   
+jstat -class PID 1000 10
 查看某个java进程的类装载信息，每1000毫秒输出一次，共输出10次
 （3）查看垃圾收集信息
 jstat -gc PID 1000 10
@@ -128,6 +130,13 @@ jstack PID
 
 (1)生成堆转储快照
 （2）打印出堆内存相关信息
+
+```
+-XX:+PrintFlagsFinal -Xms300M -Xmx300M
+jmap -heap PID
+```
+
+
 （3）dump出堆内存相关信息
 
 ```
@@ -222,8 +231,6 @@ jmap -dump:format=b,file=heap.hprof 44808
 自动：
 -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=heap.hprof
 
-
-
 ## GC日志分析工具
 
 要想分析日志的信息，得先拿到GC日志文件才行，所以得先配置一下
@@ -231,15 +238,4 @@ jmap -dump:format=b,file=heap.hprof 44808
 在线
 http://gceasy.io
 GCViewer
-
-
-
-
-
-
-
-
-
-
-
 
