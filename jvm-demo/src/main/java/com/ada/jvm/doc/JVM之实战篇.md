@@ -236,7 +236,7 @@ jmap -dump:format=b,file=heap.hprof 44808
 根据前面参数的学习，下面的配置很容易看懂
 -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintGCDateStamps
 -Xloggc:gc.log
-
++
 在线
 http://gceasy.io
 GCViewer
