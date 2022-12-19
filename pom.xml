@@ -18,6 +18,7 @@
         <module>spring-demo</module>
         <module>dubbo-demo</module>
         <module>rabbitmq-demo</module>
+        <module>redis-demo</module>
     </modules>
 <!--    SpringBoot使用了3.0或者3.0以上，因为Spring官方发布从Spring6以及SprinBoot3.0开始最低支持JDK17-->
 </project>

@@ -114,7 +114,7 @@ struct dictEntry *next; /* 指向下一个键值对节点 */
 } dictEntry;
 ```
 
-![image.png](./assets/image.png)
+![image.png](assetsmage.png)
 
 key 是字符串，但是 Redis 没有直接使用 C 的字符数组，而是存储在自定义的 SDS中。
 
@@ -292,7 +292,7 @@ unsigned char *p; /* 压缩链表以字符串的形式保存，该指针指向�
 } zlentry;
 ```
 
-![image.png](./assets/1669368527196-image.png)
+![image.png](assets669368527196-image.png)
 
 问题：什么时候使用ziplist存储？
 当 hash 对象同时满足以下两个条件的时候，使用 ziplist 编码：
@@ -311,7 +311,7 @@ hashtable （ dict ）
 源码位置：dict.h
 前面我们知道了，Redis 的 KV 结构是通过一个 dictEntry 来实现的。
 Redis 又对 dictEntry 进行了多层的封装
-![image.png](./assets/1669467798473-image.png)
+![image.png](assets669467798473-image.png)
 
 问题：为什么要定义两个哈希表呢？ht[2]
 redis 的 hash 默认使用的是 ht[0]，ht[1]不会初始化和分配空间。
@@ -371,7 +371,7 @@ lindex queue 0
 lrange queue 0 -1
 ```
 
-![image.png](./assets/1669468901816-image.png)
+![image.png](assets669468901816-image.png)
 
 ## 存储原理
 
@@ -395,7 +395,7 @@ unsigned int compress : 16; /* 压缩深度，0：不压缩； */
 } quicklist;
 ```
 
-![image.png](./assets/1669473933387-image.png)
+![image.png](assets669473933387-image.png)
 
 ## 应用场景
 
