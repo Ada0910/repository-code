@@ -146,12 +146,123 @@ Lua/ˈluə/是一种轻量级脚本语言，它是用 C 语言编写的，跟数
 似。 使用 Lua 脚本来执行 Redis 命令的好处：
 1、一次发送多个命令，减少网络开销。
 2、Redis 会将整个脚本作为一个整体执行，不会被其他请求打断，保持原子性。
-3、对于复杂的组合命令，我们可以放在文件中，可以实现程序之间的命令集复
-用
+3、对于复杂的组合命令，我们可以放在文件中，可以实现程序之间的命令集复用
 
-## 在 Redis  中 调用  Lua  脚本
+## 在Redis中调用Lua脚本
+
+```
+redis> eval lua-script key-num [key1 key2 key3 ....] [value1 value2 value3 ....]
+```
+
+ eval 代表执行 Lua 语言的命令。
+ lua-script 代表 Lua 语言脚本内容。
+ key-num 表示参数中有多少个 key，需要注意的是 Redis 中 key 是从 1 开始的，如果没有 key 的参数，那么写 0。
+ [key1 key2 key3…]是 key 作为参数传递给 Lua 语言，也可以不填，但是需要和 key-num 的个数对应起来。
+ [value1 value2 value3 ….]这些参数传递给 Lua 语言，它们是可填可不填的。
+
+如：返回一个字符串，0个参数
+redis> eval "return 'Hello World'" 0
+
+## 在Lua脚本中调用Redis命令
+
+使用 redis.call(command, key [param1, param2…])进行操作。语法格式：
+
+```
+dis> eval "redis.call('set',KEYS[1],ARGV[1])" 1 lua-key lua-value
+```
+
+ command 是命令，包括 set、get、del 等
+ key 是被操作的键。
+ param1,param2…代表给 key 的参数
+
+注意跟 Java 不一样，定义只有形参，调用只有实参。
+Lua 是在调用时用 key 表示形参，argv 表示参数值（实参）
+
+### 设置键值对
+
+如：
+
+```
+redis> eval "return redis.call('set',KEYS[1],ARGV[1])" 1 gupao 2673
+redis> get gupao
+```
+
+以上命令等价于 set gupao 2673
+
+### 在Redis中调用Lua脚本文件的命令，操作Redis
+
+1.创建Lua脚本
+cd /usr/local/soft/redis5.0.5/src
+vim ada.lua
+
+2.Lua脚本内容、先设置，再取值
+redis.call('set','ada','lua666');
+return redis.call('get','ada');
+
+3.在Redis客户端中调用lua脚本
+cd /usr/local/soft/redis5.0.5/src
+redis-cli --eval ada.lua 0
+
+4.得到返回值
+
+### 案例：对IP进行限流
+
+需求：在 X 秒内只能访问 Y 次。
+
+设计思路：
+用 key 记录 IP，用 value 记录访问次数拿到 IP 以后，对 IP+1。如果是第一次访问，对 key 设置过期时间（参数 1）。否则判断次数，超过限定的次数（参数 2），返回 0。如果没有超过次数则返回 1。超过时间，key 过期之后，可以再次访问。
+
+KEY[1]是 IP， ARGV[1]是过期时间 X，ARGV[2]是限制访问的次数 Y
+
+```
+-- ip_limit.lua
+-- IP 限流，对某个 IP 频率进行限制 ，6 秒钟访问 10 次
+local num=redis.call('incr',KEYS[1])
+if tonumber(num)==1 then
+redis.call('expire',KEYS[1],ARGV[1])
+return 1
+elseif tonumber(num)>tonumber(ARGV[2]) then
+return 0
+else
+return 1
+end
+```
+
+6 秒钟内限制访问 10 次，调用测试（连续调用 10 次）
+./redis-cli --eval "ip_limit.lua" app:ip:limit:192.168.8.111 , 6 10
+
+### 缓存Lua脚本
+
+Redis 提供了 EVALSHA 命令，允许开发者通过脚本内容的 SHA1 摘要来执行脚本
+127.0.0.1:6379> script load "return 'Hello World'"
+"470877a599ac74fbfda41caa908de682c5fc7d4b"
+127.0.0.1:6379> evalsha "470877a599ac74fbfda41caa908de682c5fc7d4b" 0
+"Hello World
+
+### 脚本超时
+
+Redis 的指令执行本身是单线程的，这个线程还要执行客户端的 Lua 脚本，如果 Lua脚本执行超时或者陷入了死循环，是不是没有办法为客户端提供服务了呢
+
+eval 'while(true) do end' 0
+
+为了防止某个脚本执行时间过长导致 Redis 无法提供服务，Redis 提供了lua-time-limit 参数限制脚本的最长运行时间，默认为 5 秒钟。
+lua-time-limit 5000（redis.conf 配置文件中）
+
+当脚本运行时间超过这一限制后，Redis 将开始接受其他命令但不会执行（以确保脚本的原子性，因为此时脚本并没有被终止），而是会返回“BUSY”错误
+
+Redis 提供了一个 script kill 的命令来中止脚本的执行。新开一个客户端
+script kill
+
+如果当前执行的 Lua 脚本对 Redis 的数据进行了修改（SET、DEL 等），那么通过script kill 命令是不能终止脚本运行的
+
+因为要保证脚本运行的原子性，如果脚本执行了一部分终止，那就违背了脚本原子性的要求。最终要保证脚本要么都执行，要么都不执行
+
+遇到这种情况，只能通过 shutdown nosave 命令来强行终止 redis
+
+shutdown nosave 和 shutdown 的区别在于 shutdown nosave 不会进行持久化操作，意味着发生在上一次快照后的数据库修改都会丢失
 
 # Redis为啥这么快
+
 
 # 内存回收
 
