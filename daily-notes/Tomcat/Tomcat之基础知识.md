@@ -130,7 +130,68 @@ Acceptor用于监听Socket连接请求，SocketProcessor用于处理接收到的
 WebAppClassLoader，打破了双亲委派模型：先自己尝试去加载这个类，找不到再委托给父类加载器。
 通过复写findClass和loadClass实现
 
+# 启动
 
+![image.png](./assets/1672654783844-image.png)
+
+![image.png](./assets/1672653303876-image.png)
+
+![image.png](./assets/1672653313730-image.png)
+
+ContainerBase的类关系图：
+![image.png](./assets/1672653328665-image.png)
+
+查看new StartChild要执行的call方法
+
+![image.png](./assets/1672653375479-image.png)
+
+StandardHost将一个个web项目部署起来
+![image.png](./assets/1672653385235-image.png)
+
+StandardContext.startInternal()解析web.xml和添加wrapper
+
+![image.png](./assets/1672653401281-image.png)
+
+# 性能优化
+
+Tomcat性能指标：吞吐量、响应时间、错误数、线程池、CPU 、内存等
+
+使用命令查看相关指标
+
+```
+01 查看tomcat进程pid
+ps -ef | grep tomcat
+02 查看进程的信息
+cat /pro/pid/status
+03 查看进程的cpu和内存
+top -p pid
+```
+
+使用工具查看相关指标
+
+jconsole、jvisualvm、arthas、psi-probe等
+
+# 优化思路
+
+## conf/server.xml核心组件
+
+可能需要优化的组件：
+Connector,Host/Context/Executor:
+
+Connnector主要是优化IO的开销
+
+## 调整优化server.xml中标签
+
+1.取消没用的监听器，无用的代码
+2.没用的web项目要删掉
+3.启动慢可以配置下面的参数：
+设置JVM参数：-Djava.security.egd=file:/dev/./urandom
+
+## JVM层面的优化也适用
+
+# 排查问题
+
+跟CPU直接相关的，肯定是线程，为啥，因为线程一多，CPU就要频繁切换去处理
 
 
 
