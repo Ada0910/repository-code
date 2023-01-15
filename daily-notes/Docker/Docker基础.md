@@ -76,7 +76,10 @@ sudo systemctl start docker测试docker安装是否成功
 sudo docker run hello-world
 
 7.设置开机启动
-sudo systemctl enable docker
+
+```
+sudo systemctl enable docker.service
+```
 
 # Docker 架构图
 
@@ -87,7 +90,7 @@ sudo systemctl enable docker
 - 查看docker镜像
   docker images
 - 基本命令
-
+  
   - docker hello world
   - docker pull        拉取镜像到本地
     docker run         根据某个镜像创建容器
@@ -103,7 +106,7 @@ sudo systemctl enable docker
   docker rmi -f hello-world
 - 删除container
   docker rm
-
+  
   ## Docker部署Tomcat
 
 1.拉取镜像
@@ -120,3 +123,4 @@ docker exec -it  my-tomcat /bin/bash
 
 4.删掉所有container
 docker rm -f $(docker ps -aq)
+
