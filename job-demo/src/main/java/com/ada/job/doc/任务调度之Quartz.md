@@ -36,6 +36,97 @@ Quartz 的目的就是让任务调度更加简单，开发人员只需要关注�
 支持集群
 支持持久化
 
+## 体系
+
+![image.png](./assets/image.png)
+
+### JobDetail
+
+我们创建一个实现 Job 接口的类，使用 JobBuilder 包装成 JobDetail，它可以携带KV 的数据
+
+### Trigger
+
+定义任务的触发规律，Trigger，使用 TriggerBuilder 来构建。
+JobDetail 跟 Trigger 是 1:N 的关系
+![image.png](./assets/1675684530108-image.png)
+
+SimpleTrigger
+SimpleTrigger 可以定义固定时刻或者固定时间间隔的调度规则（精确到毫秒）。
+例如：每天 9 点钟运行；每隔 30 分钟运行一次。
+
+CalendarIntervalTrigger
+CalendarIntervalTrigger 可以定义更多时间单位的调度需求，精确到秒。
+好处是不需要去计算时间间隔，比如 1 个小时等于多少毫秒。
+例如每年、每个月、每周、每天、每小时、每分钟、每秒。
+每年的月数和每个月的天数不是固定的，这种情况也适用。
+
+DailyTimeIntervalTrigger
+每天的某个时间段内，以一定的时间间隔执行任务。
+例如：每天早上 9 点到晚上 9 点，每隔半个小时执行一次，并且只在周一到周六执
+行。
+
+CronTrigger
+CronTirgger 可以定义基于 Cron 表达式的调度规则，是最常用的触发器类型
+
+基于 Calendar  的 排除规则
+
+如果要在触发器的基础上，排除一些时间区间不执行任务，就要用到 Quartz 的Calendar 类（注意不是 JDK 的 Calendar）。可以按年、月、周、日、特定日期、Cron表达式排除
+
+调用 Trigger 的 modifiedByCalendar()添加到触发器中，并且调用调度器的
+addCalendar()方法注册排除规则
+
+## Scheduler
+
+调度器，是Quartz的指挥官，由StdSchedulerFactory产生，它是单例
+
+并且是 Quartz 中最重要的 API，默认是实现类是 StdScheduler，里面包含了一个
+QuartzScheduler，QuartzScheduler 里面又包含了一个 QuartzSchedulerThread
+
+Scheduler 中的方法主要分为三大类：
+1）操作调度器本身，例如调度器的启动 start()、调度器的关闭 shutdown()。
+2）操作 Trigger，例如 pauseTriggers()、resumeTrigger()。
+3）操作 Job，例如 scheduleJob()、unscheduleJob()、rescheduleJob()
+这些方法非常重要，可以实现任务的动态调度
+
+## Listener
+
+观察者模式：定义对象间一种一对多的依赖关系，使得每当一个对象改变状态，则所有依赖它的对象都会得到通知并自动更新。
+
+Quartz 中提供了三种 Listener，监听 Scheduler 的，监听 Trigger 的，监听 Job 的
+
+只需要创建类实现相应的接口，并在 Scheduler 上注册 Listener，便可实现对核心对象的监听
+
+## JobStore
+
+问题：最多可以运行多少个任务（磁盘、内存、线程数）
+
+Jobstore 用来存储任务和触发器相关的信息，例如所有任务的名称、数量、状态等等。Quartz 中有两种存储任务的方式，一种在在内存，一种是在数据库
+
+### RAMJobstore
+
+Quartz 默认的 JobStore 是 RAMJobstore，也就是把任务和触发器信息运行的信息存储在内存中，用到了 HashMap、TreeSet、HashSet 等等数据结构。
+
+如果程序崩溃或重启，所有存储在内存中的数据都会丢失。所以我们需要把这些数据持久化到磁盘
+
+### JDBCJobStore
+
+JDBCJobStore 可以通过 JDBC 接口，将任务运行数据保存在数据库中
+
+JDBC 的实现方式有两种，JobStoreSupport 类的两个子类：
+
+JobStoreTX：在独立的程序中使用，自己管理事务，不参与外部事务。
+JobStoreCMT：(Container Managed Transactions (CMT)，如果需要容器管理事务时，使用它
+
+在官网的 Downloads 链接中，提供了 11 张表的建表语句：
+quartz-2.2.3-distribution\quartz-2.2.3\docs\dbTables
+2.3 的版本在这个路径下：src\org\quartz\impl\jdbcjobstore
+
+
+
+![image.png](./assets/1675701512546-image.png)
+
+
+
 
 
 
