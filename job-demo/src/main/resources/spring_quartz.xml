@@ -83,7 +83,7 @@
     <!--  3.2 持久化数据配置，需要添加quartz.properties。这种方式，任务会持久化到数据库。 -->
 <!--    <bean name="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
     <property name="applicationContextSchedulerContextKey" value="applicationContextKey"/>
-    <property name="configLocation" value="classpath:quartz.properties"/>
+    <property name="configLocation" value="classpath:quartz-spring.properties"/>
         <property name="triggers">
             <list>
                 <ref bean="simpleTrigger"/>
