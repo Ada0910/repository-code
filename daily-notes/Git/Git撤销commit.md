@@ -1,6 +1,9 @@
 # git commit后，如何撤销commit
+
 ## 问题
+
 - 修改了本地的代码，然后使用：
+
 ```
 git add file
 git commit -m '修改原因'
@@ -8,16 +11,30 @@ git commit -m '修改原因'
 ```
 
 
+
+# IDEA操作
+
+![image.png](./assets/image.png)
+![image.png](./assets/1676906023334-image.png)
+
 ## 解决方案：
+
 - 使用命令：
+
 ```
 git reset --soft HEAD^
 ```
+
 这样就成功撤销了commit，如果想要连着add也撤销的话，--soft改为--hard（删除工作空间的改动代码）
 
 - 命令详解：
 
 ```
+--mixed （git reset的默认参数，即不添加参数的默认值）
+意思是：不删除工作空间改动代码，撤销commit 和 撤销git add . 操作，回退到工作区
+
+这个为默认参数,git reset --mixed HEAD^ 和 git reset HEAD^ 效果是一样的
+
 HEAD^  表示上一个版本，即上一次的commit，也可以写成HEAD~1
 如果进行两次的commit，想要都撤回，可以使用HEAD~2
 
@@ -32,3 +49,4 @@ HEAD^  表示上一个版本，即上一次的commit，也可以写成HEAD~1
 git commit --amend
 这时候会进入vim编辑器，修改完成你要的注释后保存即可。
 ```
+
