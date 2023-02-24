@@ -4,8 +4,7 @@ package com.ada.dubbo;
  *
  * <b><code></code></b>
  * <p/>
- *
- *
+ *  提供一个sayHello的接口
  * <p/>
  *
  * @Date: 2023/2/23 19:42

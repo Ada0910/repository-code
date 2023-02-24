@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *
  * <b><code></code></b>
  * <p/>
- *
+ * 服务提供者主类
  *
  * <p/>
  *

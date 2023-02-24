@@ -6,7 +6,8 @@ import com.ada.dubbo.ISayHelloService;
  *
  * <b><code></code></b>
  * <p/>
- * 降级处理的类
+ * 
+ * 服务降级处理的类：当服务发生降级时，就会调用这个类
  * <p/>
  *
  * @Date: 2023/2/23 19:42

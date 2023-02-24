@@ -7,8 +7,10 @@ import org.apache.dubbo.config.annotation.Service;
  *
  * <b><code></code></b>
  * <p/>
- *
- *
+ * sayHello的接口实现类
+ * 
+ * loadbalance = "random" 负载均衡的策略，选择了随机算法
+ * cluster = "failsafe" 集群容错策略，选择的是失败安全，出现异常时，直接忽略
  * <p/>
  *
  * @Date: 2023/2/23 19:42

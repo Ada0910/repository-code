@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * <b><code></code></b>
  * <p/>
  *
- *
+ * dubbo客户端
  * <p/>
  *
  * @Date: 2023/2/23 19:42
