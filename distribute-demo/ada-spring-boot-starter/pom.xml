@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.ada</groupId>
-    <artifactId>spi-demo</artifactId>
+    <artifactId>ada-spring-boot-starter</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>spi-demo</name>
-    <description>spi-demo</description>
+    <name>ada-spring-boot-starter</name>
+    <description>ada-spring-boot-starter</description>
     <properties>
         <java.version>1.8</java.version>
     </properties>
@@ -28,17 +28,24 @@
             <scope>test</scope>
         </dependency>
 
+        <!--        添加依赖-->
         <dependency>
-            <groupId>com.ada</groupId>
-            <artifactId>ada-spring-boot-starter</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-test</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
-
     </dependencies>
 
     <build>
