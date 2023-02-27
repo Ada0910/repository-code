@@ -197,3 +197,25 @@ ada-spring-boot-starter模块
 ```
 
 # Dubbo的SPI
+
+Dubbo的SPI扩展机制，有下面规则
+（1）需要在resource目录下配置META-INF/dubbo
+或者META-INF/dubbo/internal 或者META-INF/services,并基于SPI接口去创建一个文件
+（2）文件名和接口名称保持一致，内容和SPI有差异，内容是KEY对应的value
+
+Dubbo 针对的扩展点非常多，可以针对协议、拦截、集群、路由、负载均衡、序列化、容器… 几乎里面用到的所有功能，都可以实现自己的扩展，我觉得这个是 dubbo 比较强大的一点
+
+## 扩展协议扩展点
+
+（1）创建如下结构，添加META-INF.dubbo文件，类名和Dubbo提供的协议扩展点接口保持一致
+
+（2）创建MyProtocol协议类
+可以实现自己的协议，我们为了模拟协议产生了作用，修改了一个端口
+
+## Dubbo的扩展原理实现
+
+
+
+
+
+

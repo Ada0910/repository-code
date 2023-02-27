@@ -9,7 +9,8 @@ import java.util.ServiceLoader;
  * <p/>  
  *  JDK的SPI扩展测试类:
  *
- *
+ *  需要在新建对应的目录：META-INF/services/com.ada.spi.jdk.ISayHello（固定）
+ *  内容是接口的实现类：com.ada.spi.jdk.SayHelloImpl
  * <p/>
  *
  * @Date: 2023/2/25 16:39
