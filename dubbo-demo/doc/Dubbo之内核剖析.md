@@ -214,8 +214,175 @@ Dubbo 针对的扩展点非常多，可以针对协议、拦截、集群、路�
 
 ## Dubbo的扩展原理实现
 
+1.被加载的类是如何存储和使用的
 
+```
+public static <T> ExtensionLoader<T> getExtensionLoader(Class<T> type) {
+        if (type == null) {
+            throw new IllegalArgumentException("Extension type == null");
+        } else if (!type.isInterface()) {
+            throw new IllegalArgumentException("Extension type (" + type + ") is not an interface!");
+        } else if (!withExtensionAnnotation(type)) {
+            throw new IllegalArgumentException("Extension type (" + type + ") is not an extension, because it is NOT annotated with @" + SPI.class.getSimpleName() + "!");
+        } else {
+            ExtensionLoader<T> loader = (ExtensionLoader)EXTENSION_LOADERS.get(type);
+            if (loader == null) {
+                EXTENSION_LOADERS.putIfAbsent(type, new ExtensionLoader(type));
+                loader = (ExtensionLoader)EXTENSION_LOADERS.get(type);
+            }
 
+            return loader;
+        }
+    }
+```
+
+```
+private ExtensionLoader(Class<?> type) {
+        this.type = type;
+        this.objectFactory = type == ExtensionFactory.class ? null : (ExtensionFactory)getExtensionLoader(ExtensionFactory.class).getAdaptiveExtension();
+    }
+```
+
+```
+public T getAdaptiveExtension() {
+        Object instance = this.cachedAdaptiveInstance.get();
+        if (instance == null) {
+            if (this.createAdaptiveInstanceError != null) {
+                throw new IllegalStateException("Failed to create adaptive instance: " + this.createAdaptiveInstanceError.toString(), this.createAdaptiveInstanceError);
+            }
+
+            synchronized(this.cachedAdaptiveInstance) {
+                instance = this.cachedAdaptiveInstance.get();
+                if (instance == null) {
+                    try {
+                        instance = this.createAdaptiveExtension();
+                        this.cachedAdaptiveInstance.set(instance);
+                    } catch (Throwable var5) {
+                        this.createAdaptiveInstanceError = var5;
+                        throw new IllegalStateException("Failed to create adaptive instance: " + var5.toString(), var5);
+                    }
+                }
+            }
+        }
+
+        return instance;
+    }
+```
+
+```java
+public T getExtension(String name) {
+        if (StringUtils.isEmpty(name)) {
+            throw new IllegalArgumentException("Extension name == null");
+        } else if ("true".equals(name)) {
+            return this.getDefaultExtension();
+        } else {
+            Holder<Object> holder = this.getOrCreateHolder(name);
+            Object instance = holder.get();
+            if (instance == null) {
+                synchronized(holder) {
+                    instance = holder.get();
+                    if (instance == null) {
+                        instance = this.createExtension(name);
+                        holder.set(instance);
+                    }
+                }
+            }
+
+            return instance;
+        }
+    }
+```
+
+```
+private T createExtension(String name) {
+        Class<?> clazz = (Class)this.getExtensionClasses().get(name);
+        if (clazz == null) {
+            throw this.findException(name);
+        } else {
+            try {
+                T instance = EXTENSION_INSTANCES.get(clazz);
+                if (instance == null) {
+                    EXTENSION_INSTANCES.putIfAbsent(clazz, clazz.newInstance());
+                    instance = EXTENSION_INSTANCES.get(clazz);
+                }
+
+                this.injectExtension(instance);
+                Set<Class<?>> wrapperClasses = this.cachedWrapperClasses;
+                Class wrapperClass;
+                if (CollectionUtils.isNotEmpty(wrapperClasses)) {
+                    for(Iterator var5 = wrapperClasses.iterator(); var5.hasNext(); instance = this.injectExtension(wrapperClass.getConstructor(this.type).newInstance(instance))) {
+                        wrapperClass = (Class)var5.next();
+                    }
+                }
+
+                return instance;
+            } catch (Throwable var7) {
+                throw new IllegalStateException("Extension instance (name: " + name + ", class: " + this.type + ") couldn't be instantiated: " + var7.getMessage(), var7);
+            }
+        }
+    }
+```
+
+getExtensionClasses
+这个方法，会查找指定目录/META-INF/dubbo || /META-INF/services 下对应的 type->也就是本次演示案例的 Protocol 的 properties 文件，然后扫描这个文件下的所有配置信息，然后保存到一个HashMap中（classes）,key=name（对应protocol文件中配置的myprotocol）,value =对应配置类的实例
+
+```
+private Map<String, Class<?>> getExtensionClasses() {
+        Map<String, Class<?>> classes = (Map)this.cachedClasses.get();
+        if (classes == null) {
+            synchronized(this.cachedClasses) {
+                classes = (Map)this.cachedClasses.get();
+                if (classes == null) {
+                    classes = this.loadExtensionClasses();
+                    this.cachedClasses.set(classes);
+                }
+            }
+        }
+
+        return classes;
+    }
+```
+
+injectExtension 方法
+private T injectExtension(T instance) {
+try {
+if (this.objectFactory != null) {
+Method[] var2 = instance.getClass().getMethods();
+int var3 = var2.length;
+
+```
+for(int var4 = 0; var4 < var3; ++var4) {
+                Method method = var2[var4];
+                if (this.isSetter(method) && method.getAnnotation(DisableInject.class) == null) {
+                    Class<?> pt = method.getParameterTypes()[0];
+                    if (!ReflectUtils.isPrimitives(pt)) {
+                        try {
+                            String property = this.getSetterProperty(method);
+                            Object object = this.objectFactory.getExtension(pt, property);
+                            if (object != null) {
+                                method.invoke(instance, object);
+                            }
+                        } catch (Exception var9) {
+                            logger.error("Failed to inject via method " + method.getName() + " of interface " + this.type.getName() + ": " + var9.getMessage(), var9);
+                        }
+                    }
+                }
+            }
+        }
+    } catch (Exception var10) {
+        logger.error(var10.getMessage(), var10);
+    }
+
+    return instance;
+}
+```
+
+## Adaptive 自适应扩展点
+
+什么叫自适应扩展点呢?我们先演示一个例子，在下面这个例子中，我们传入一个 Compiler 接口，它会返回一个
+AdaptiveCompiler。这个就叫自适应。Compiler compiler=ExtensionLoader.getExtensionLoader(Compiler.class).getAdaptiveExtension0);System.out.println(compiler.getClass0);它是怎么实现的呢?我们根据返回的 AdaptiveCompiler 这个类，看到这个类上面有一个注解@Adaptive。这个就是一个自适应扩展点的标识。它可以修饰在类上，也可以修饰在方法上面。这两者有什么区别呢?简单来说，放在类上，说明当前类是一个确定的自适应扩展点的类。如果是放在方法级别，那么需要生成一个动态字节码，来进行转发。
+比如拿 Protocol这个接口来说，它里面定义了 export 和 refer 两个抽象方法，这两个方法分别带有@Adaptive 的标识，标识是一个自适应方法。
+我们知道 Protocol是一个通信协议的接口，具体有多种实现，那么这个时候选择哪一种呢?取决于我们在使用 dubbo 的时候所配置的协议名称。而这里的方法层面的 Adaptive 就决定了当前这个方法会采用何种协议来发布服务
 
 
 

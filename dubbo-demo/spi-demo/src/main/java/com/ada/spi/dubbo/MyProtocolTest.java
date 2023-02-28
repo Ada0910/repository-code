@@ -8,7 +8,9 @@ import org.apache.dubbo.rpc.Protocol;
  * <b><code></code></b>
  * <p/>
  *
- * 自定义协议测试类（测试SPI扩展）
+ * 自定义协议扩展点测试类（测试SPI扩展）
+ *
+ * 扩展路径是：META-INF/dubbo/org.apache.dubbo.rpc.Protocol
  *
  * <p/>
  *
@@ -20,8 +22,11 @@ import org.apache.dubbo.rpc.Protocol;
 public class MyProtocolTest {
 	public static void main(String[] args) {
 
-		//dubbo SPI
+		//dubbo SPI（自定义协议扩展点），源码的入口可以从这里看
 		Protocol protocol = ExtensionLoader.getExtensionLoader(Protocol.class).getExtension("myprotocol");
 		System.out.println(protocol.getDefaultPort());
+
+		Compiler protocol2=ExtensionLoader.getExtensionLoader(Compiler.class).getAdaptiveExtension();
+
 	}
 }
