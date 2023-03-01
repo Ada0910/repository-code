@@ -24,8 +24,9 @@ public class SayHelloServiceImpl implements ISayHelloService {
     @Override
     public String sayHello() {
         try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
+            // Thread.sleep(1000);
+            // Thread.sleep(1);
+        } catch (Exception e) {
             e.printStackTrace();
         }
         System.out.println("Come in SayHello()");

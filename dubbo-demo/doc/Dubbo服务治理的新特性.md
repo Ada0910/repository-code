@@ -84,6 +84,7 @@ hash 一致性算法，相同参数的请求总是发到同一提供者
 在实际应用中 查询语句容错策略建议使用默认 Failover Cluster ，而增删改 建议使用
 Failfast Cluster 或者 使用 Failover Cluster（retries=”0”） 策略 防止出现数据 重复
 添加等等其它问题！建议在设计接口时候把查询接口方法单独做一个接口提供查询
+
 # 服务降级
 
 降级的概念
@@ -200,4 +201,3 @@ dubbo.metadata- - report.address= zookeeper://192.168.13.106 6 :2181
 dubbo.registry.simplified= true //注册到注册中心的 URL 是否采用精简模式的
 （与低版本兼容
 ```
-
