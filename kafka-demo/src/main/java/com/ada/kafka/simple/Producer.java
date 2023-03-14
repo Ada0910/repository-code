@@ -1,8 +1,6 @@
 package com.ada.kafka.simple;
 
-import org.apache.kafka.clients.producer.KafkaProducer;
-import org.apache.kafka.clients.producer.ProducerConfig;
-import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.clients.producer.*;
 import org.apache.kafka.common.serialization.IntegerSerializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 
@@ -50,7 +48,20 @@ public class Producer extends Thread {
 		while (num < 60) {
 			String msg = "pratice test message:" + num;
 			try {
+				// 消息的发送（同步）
 				producer.send(new ProducerRecord<>(topic, msg)).get();
+
+
+				/*
+				 * 本质上将，kafka都是采用异步的方式发送消息到broker中
+				 *  （异步消息发送）
+				 */
+				producer.send(new ProducerRecord<>(topic, msg), new Callback() {
+					@Override
+					public void onCompletion(RecordMetadata recordMetadata, Exception e) {
+						System.out.println("callback: " + recordMetadata.offset() + "->" + recordMetadata.partition());
+					}
+				});
 				TimeUnit.SECONDS.sleep(2);
 				num++;
 
