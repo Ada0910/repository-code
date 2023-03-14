@@ -36,6 +36,8 @@ public class Producer extends Thread {
 		// value的序列化方式
 		properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
 		producer = new KafkaProducer<Integer, String>(properties);
+		// 自定义分片规则
+		properties.put(ProducerConfig.PARTITIONER_CLASS_CONFIG,"com.ada.kafka.partitioner.MyPartioner");
 		this.topic = topic;
 	}
 

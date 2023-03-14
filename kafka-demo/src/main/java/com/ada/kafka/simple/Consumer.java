@@ -47,6 +47,7 @@ public class Consumer extends Thread {
 	@Override
 	public void run() {
 		while (true) {
+			// 消费端如何消费指定的分区，可以通过以下方式来
 			consumer.subscribe(Collections.singleton(this.topic));
 			ConsumerRecords<Integer, String> records = consumer.poll(Duration.ofSeconds(1));
 			records.forEach(record -> {

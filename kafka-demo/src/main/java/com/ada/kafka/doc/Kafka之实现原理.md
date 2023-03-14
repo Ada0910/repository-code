@@ -91,5 +91,159 @@ sh kafka-topics.sh --create --zookeeper 192.168.11.156:2181 --replication-factor
 1 --partitions 3 --topic firstTopic
 ```
 
+# 消息分发
+
+## kafka消息分发策略
+
+消息是kafka中最基本的数据单元，在kafka中，一条消息由key、value两部分构成，在发送一条消息
+时，我们可以指定这个key，那么producer会根据key和partition机制来判断当前这条消息应该发送并
+存储到哪个partition中。我们可以根据需要进行扩展producer的partition机制
+
+## 消息默认的分发机制
+
+默认情况下，kafka采用的是hash取模的分区算法。如果Key为null，则会随机分配一个分区。这个随机
+是在这个参数”metadata.max.age.ms”的时间范围内随机选择一个。对于这个时间段内，如果key为
+null，则只会发送到唯一的分区。这个值值哦默认情况下是10分钟更新一次。
+关于Metadata，这个之前没讲过，简单理解就是Topic/Partition和broker的映射关系，每一个topic的
+每一个partition，需要知道对应的broker列表是什么，leader是谁、follower是谁。这些信息都是存储
+在Metadata这个类里面
+
+## 消费端如何消费指定的分区
+
+```
+/消费指定分区的时候，不需要再订阅
+//kafkaConsumer.subscribe(Collections.singletonList(topic));
+//消费指定的分区
+TopicPartition topicPartition=new TopicPartition(topic,0);
+kafkaConsumer.assign(Arrays.asList(topicPartition));
+```
+
+# 消息的消费原理
+
+## kafka消息消费原理演示
+
+在实际生产过程中，每个topic都会有多个partitions，多个partitions的好处在于，一方面能够对
+broker上的数据进行分片有效减少了消息的容量从而提升io性能。另外一方面，为了提高消费端的消费
+能力，一般会通过多个consumer去消费同一个topic ，也就是消费端的负载均衡机制，也就是我们接下
+来要了解的，在多个partition以及多个consumer的情况下，消费者是如何消费消息的
+同时，在上一节课，我们讲了，kafka存在consumer group的概念，也就是group.id一样的
+consumer，这些consumer属于一个consumer group，组内的所有消费者协调在一起来消费订阅主题
+的所有分区。当然每一个分区只能由同一个消费组内的consumer来消费，那么同一个consumer
+group里面的consumer是怎么去分配该消费哪个分区里的数据的呢？如下图所示，3个分区，3个消费
+者，那么哪个消费者消分哪个分区？
+
+![image.png](./assets/1678810049701-image.png)
+
+## consumer和partition的数量建议
+
+1. 如果consumer比partition多，是浪费，因为kafka的设计是在一个partition上是不允许并发的，
+   所以consumer数不要大于partition数
+2. 如果consumer比partition少，一个consumer会对应于多个partitions，这里主要合理分配
+   consumer数和partition数，否则会导致partition里面的数据被取的不均匀。最好partiton数目是
+   consumer数目的整数倍，所以partition数目很重要，比如取24，就很容易设定consumer数目
+3. 如果consumer从多个partition读到数据，不保证数据间的顺序性，kafka只保证在一个partition
+   上数据是有序的，但多个partition，根据你读的顺序会有不同
+4. 增减consumer，broker，partition会导致rebalance，所以rebalance后consumer对应的
+   partition会发生变化
+
+## 什么时候会触发这个策略呢
+
+出现以下几种情况时，kafka会进行一次分区分配操作，也就是kafka consumer的rebalance
+
+1. 同一个consumer group内新增了消费者
+2. 消费者离开当前所属的consumer group，比如主动停机或者宕机
+3. topic新增了分区（也就是分区数量发生了变化）
+   kafka consuemr的rebalance机制规定了一个consumer group下的所有consumer如何达成一致来分
+   配订阅topic的每个分区。而具体如何执行分区策略，就是前面提到过的两种内置的分区策略。而kafka
+   对于分配策略这块，提供了可插拔的实现方式， 也就是说，除了这两种之外，我们还可以创建自己的分
+   配机制
+
+## 什么是分区分配策略
+
+通过前面的案例演示，我们应该能猜到，同一个group中的消费者对于一个topic中的多个partition，存
+在一定的分区分配策略。
+在kafka中，存在三种分区分配策略，一种是Range(默认)、 另一种是RoundRobin（轮询）、
+StickyAssignor(粘性)。 在消费端中的ConsumerConfig中，通过这个属性来指定分区分配策略
+
+```java
+public static final String PARTITION_ASSIGNMENT_STRATEGY_CONFIG =
+"partition.assignment.strategy";
+```
+
+### RangeAssignor（范围分区）
+
+假设n = 分区数／消费者数量
+m= 分区数％消费者数量
+那么前m个消费者每个分配n+l个分区，后面的（消费者数量-m)个消费者每个分配n个分区
+
+假设我们有10个分区，3个消费者，排完序的分区将会是0, 1, 2, 3, 4, 5, 6, 7, 8, 9；消费者线程排完序将
+会是C1-0, C2-0, C3-0。然后将partitions的个数除于消费者线程的总数来决定每个消费者线程消费几个
+分区。如果除不尽，那么前面几个消费者线程将会多消费一个分区。在我们的例子里面，我们有10个分
+区，3个消费者线程， 10 / 3 = 3，而且除不尽，那么消费者线程 C1-0 将会多消费一个分区
+的结果看起来是这样的：
+C1-0 将消费 0, 1, 2, 3 分区
+C2-0 将消费 4, 5, 6 分区
+C3-0 将消费 7, 8, 9 分区
+假如我们有11个分区，那么最后分区分配的结果看起来是这样的：
+C1-0 将消费 0, 1, 2, 3 分区
+C2-0 将消费 4, 5, 6, 7 分区
+C3-0 将消费 8, 9, 10 分区
+假如我们有2个主题(T1和T2)，分别有10个分区，那么最后分区分配的结果看起来是这样的：
+C1-0 将消费 T1主题的 0, 1, 2, 3 分区以及 T2主题的 0, 1, 2, 3分区
+C2-0 将消费 T1主题的 4, 5, 6 分区以及 T2主题的 4, 5, 6分区
+C3-0 将消费 T1主题的 7, 8, 9 分区以及 T2主题的 7, 8, 9分区
+可以看出，C1-0 消费者线程比其他消费者线程多消费了2个分区，这就是Range strategy的一个很明
+显的弊端
+
+### RoundRobinAssignor（轮询分区）
+
+轮询分区策略是把所有partition和所有consumer线程都列出来，然后按照hashcode进行排序。最后通
+过轮询算法分配partition给消费线程。如果所有consumer实例的订阅是相同的，那么partition会均匀
+分布。
+在我们的例子里面，假如按照 hashCode 排序完的topic-partitions组依次为T1-5, T1-3, T1-0, T1-8, T1-
+2, T1-1, T1-4, T1-7, T1-6, T1-9，我们的消费者线程排序为C1-0, C1-1, C2-0, C2-1，最后分区分配的结果
+为：
+C1-0 将消费 T1-5, T1-2, T1-6 分区；
+C1-1 将消费 T1-3, T1-1, T1-9 分区；
+C2-0 将消费 T1-0, T1-4 分区；
+C2-1 将消费 T1-8, T1-7 分区；
+使用轮询分区策略必须满足两个条件
+
+1. 每个主题的消费者实例具有相同数量的流
+2. 每个消费者订阅的主题必须是相同的
+
+### StrickyAssignor 分配策略
+
+假设消费组有3个消费者：C0,C1,C2，它们分别订阅了4个Topic(t0,t1,t2,t3),并且每个主题有两个分
+区(p0,p1),也就是说，整个消费组订阅了8个分区：tOpO 、 tOpl 、 tlpO 、 tlpl 、 t2p0 、
+t2pl 、t3p0 、 t3pl
+那么最终的分配场景结果为
+CO: tOpO、tlpl 、 t3p0
+Cl: tOpl、t2p0 、 t3pl
+C2: tlpO、t2pl
+这种分配方式有点类似于轮询策略，但实际上并不是，因为假设这个时候，C1这个消费者挂了，就势必会造成
+重新分区（reblance），如果是轮询，那么结果应该是
+CO: tOpO、tlpO、t2p0、t3p0
+C2: tOpl、tlpl、t2pl、t3pl
+然后，strickyAssignor它是一种粘滞策略，所以它会满足`分区的分配尽可能和上次分配保持相同`，所以
+分配结果应该是
+消费者CO: tOpO、tlpl 、 t3p0、t2p0
+消费者C2: tlpO、t2pl、tOpl、t3pl
+也就是说，C0和C2保留了上一次是的分配结果，并且把原来C1的分区分配给了C0和C2。 这种策略的好处是
+使得分区发生变化时，由于分区的“粘性，减少了不必要的分区移动
+
+### 谁来执行Rebalance以及管理consumer的group呢？
+
+Kafka提供了一个角色：
+coordinator来执行对于consumer group的管理，当consumer group的第一个consumer启动的时
+候，它会去和kafka server确定谁是它们组的coordinator。之后该group内的所有成员都会和该
+coordinator进行协调通信
+
+### 如何确定coordinator
+
+consumer group如何确定自己的coordinator是谁呢, 消费者向kafka集群中的任意一个broker发送一个
+GroupCoordinatorRequest请求，服务端会返回一个负载最小的broker节点的id，并将该broker设置
+为coordinator
+
 
 
