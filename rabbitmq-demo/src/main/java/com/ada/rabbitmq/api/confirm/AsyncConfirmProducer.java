@@ -1,4 +1,4 @@
-package com.ada.rabbitmq.api;
+package com.ada.rabbitmq.api.confirm;
 
 import com.ada.rabbitmq.api.util.ResourceUtil;
 import com.rabbitmq.client.Channel;
@@ -15,7 +15,8 @@ import java.util.TreeSet;
  *
  * <b><code></code></b>
  * <p/>  
- *
+ *  服务端确认模式：异步确认模式
+ *  添加多一个ConfirmListener，边接受边确定
  * <p/>
  *
  * @Date: 2022/12/4 15:08

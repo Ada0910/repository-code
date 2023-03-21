@@ -1,4 +1,4 @@
-package com.ada.rabbitmq.api;
+package com.ada.rabbitmq.api.confirm;
 
 
 import com.ada.rabbitmq.api.util.ResourceUtil;
@@ -7,6 +7,20 @@ import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 
 
+/**
+ *
+ * <b><code></code></b>
+ * <p/>  
+ *  服务端确认模式：批量确认模式
+ *  channel.waitForConfirmsOrDie();这个方法没有抛出异常，则说明消息都被服务端接收了
+ *  
+ * <p/>
+ *
+ * @Date: 2023/03/21 10:08
+ * @Author xwn
+ * @Version 1.0.0.1
+ *
+ */
 public class BatchConfirmProducer {
     private final static String QUEUE_NAME = "ORIGIN_QUEUE";
 
