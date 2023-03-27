@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.gupaoedu.demo.mapper.SysJobMapper">
-	<resultMap id="BaseResultMap" type="com.gupaoedu.demo.entity.SysJob">
+<mapper namespace="com.ada.demo.mapper.SysJobMapper">
+	<resultMap id="BaseResultMap" type="com.ada.demo.entity.SysJob">
 		<id column="id" jdbcType="INTEGER" property="id" />
 		<result column="job_describe" jdbcType="VARCHAR" property="jobDescribe" />
 		<result column="job_class_path" jdbcType="VARCHAR" property="jobClassPath" />
@@ -51,7 +51,7 @@
 	</select>
 	
 	<!-- 根据bean查询定时任务详情  -->
-	<select id="selectByBean" parameterType="com.gupaoedu.demo.entity.SysJob" resultMap="BaseResultMap">
+	<select id="selectByBean" parameterType="com.ada.demo.entity.SysJob" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
 		from sys_job where 1=1
@@ -95,7 +95,7 @@
 	</delete>
 
 	<!-- 新增定时任务 -->
-	<insert id="insertSelective" parameterType="com.gupaoedu.demo.entity.SysJob">
+	<insert id="insertSelective" parameterType="com.ada.demo.entity.SysJob">
 		insert into sys_job
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -152,7 +152,7 @@
 	</insert>
 
 	<!-- 更新定时任务信息 -->
-	<update id="updateByPrimaryKeySelective" parameterType="com.gupaoedu.demo.entity.SysJob">
+	<update id="updateByPrimaryKeySelective" parameterType="com.ada.demo.entity.SysJob">
 		update sys_job
 		<set>
 			<if test="jobDescribe != null">
