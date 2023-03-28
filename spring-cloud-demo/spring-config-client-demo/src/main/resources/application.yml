@@ -1,0 +1,52 @@
+spring:
+  application:
+    name: config-client
+  cloud:
+    zookeeper:
+      enabled: false # Zookeeper ?????????????
+    consul:
+      discovery:
+        enabled: false # Consul ?????????????
+
+server:
+  port: 0 #????
+
+## ?? profile ??????
+eureka:
+  client:
+    enabled: false # Eureka ?????????????
+
+--- # Profile For Eureka
+spring:
+  profiles: eureka
+# Eureka ?????
+eureka:
+  server: # ???????????????
+    host: 127.0.0.1
+    port: 8080
+  client:
+    enabled: true
+    serviceUrl:
+      defaultZone: http://${eureka.server.host}:${eureka.server.port}/eureka
+    registryFetchIntervalSeconds: 5 # 5 ?????
+  instance:
+    instanceId: ${spring.application.name}:${server.port}
+
+--- # Profile For Zookeeper
+spring:
+  profiles: zookeeper
+  cloud:
+    zookeeper:
+      enabled: true
+      connectString: 127.0.0.1:2181
+
+--- # Profile For Consul
+spring:
+  profiles: consul
+  cloud:
+    consul:
+      discovery:
+        enabled: true
+        ipAddress: 127.0.0.1
+        port: 8500
+
