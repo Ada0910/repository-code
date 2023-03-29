@@ -24,7 +24,6 @@ public class PropertiesDemo {
         Properties properties = new Properties();
         properties.setProperty("name", "ada");
         properties.setProperty("age", "34");
-
         properties.storeToXML(System.out, "This is a comment", "UTF-8");
 
     }
