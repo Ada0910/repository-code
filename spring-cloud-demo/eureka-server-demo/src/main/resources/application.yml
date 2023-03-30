@@ -3,7 +3,7 @@ spring:
     name: eureka-server
 
 server:
-  port: 8080
+  port: 8000
 
 # Eureka 客户端配置
 eureka:

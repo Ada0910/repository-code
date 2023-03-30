@@ -9,22 +9,22 @@ spring:
         enabled: false # Consul 服务发现与注册失效（默认）
 
 server:
-  port: 8081 #0-随机端口
+  port: 8088 #0-随机端口
 
 ## 默认 profile 关闭自动特性
-eureka:
-  client:
-    enabled: false # Eureka 服务发现与注册失效（默认）-false
-    register-with-eureka: true
-    fetch-registry : true
---- # Profile For Eureka
-spring:
-  profiles: eureka
-# Eureka 客户端配置
+#eureka:
+#  client:
+#    enabled: false # Eureka 服务发现与注册失效（默认）-false
+#    register-with-eureka: true
+#    fetch-registry : true
+#--- # Profile For Eureka
+#spring:
+#  profiles: eureka
+## Eureka 客户端配置
 eureka:
   server: # 官方不存在的配置（自定义配置）
     host: 127.0.0.1
-    port: 8080
+    port: 8000
   client:
     enabled: true
     serviceUrl:
@@ -36,21 +36,21 @@ eureka:
 
 
 
---- # Profile For Zookeeper
-spring:
-  profiles: zookeeper
-  cloud:
-    zookeeper:
-      enabled: true
-      connectString: 127.0.0.1:2181
-
---- # Profile For Consul
-spring:
-  profiles: consul
-  cloud:
-    consul:
-      discovery:
-        enabled: true
-        ipAddress: 127.0.0.1
-        port: 8500
+#--- # Profile For Zookeeper
+#spring:
+#  profiles: zookeeper
+#  cloud:
+#    zookeeper:
+#      enabled: true
+#      connectString: 127.0.0.1:2181
+#
+#--- # Profile For Consul
+#spring:
+#  profiles: consul
+#  cloud:
+#    consul:
+#      discovery:
+#        enabled: true
+#        ipAddress: 127.0.0.1
+#        port: 8500
 
