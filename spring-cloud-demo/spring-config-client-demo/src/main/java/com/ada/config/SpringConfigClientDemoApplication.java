@@ -33,6 +33,11 @@ public class SpringConfigClientDemoApplication {
 		return new LinkedHashSet<>(discoveryClient.getServices());
 	}
 
+	@GetMapping("/services/name")
+	public String getServicesName() {
+		return "ada";
+	}
+
 	/**
 	 * @param serviceName
 	 * @return

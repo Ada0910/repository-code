@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: service-client
+  autoconfigure:
+    exclude: org.springframework.cloud.consul.serviceregistry.ConsulAutoServiceRegistrationAutoConfiguration
+
+
+server:
+  port: 9090 #随机端口
