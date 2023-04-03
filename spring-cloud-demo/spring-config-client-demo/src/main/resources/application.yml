@@ -7,7 +7,15 @@ spring:
     consul:
       discovery:
         enabled: false # Consul 服务发现与注册失效（默认）
-
+    gateway:
+      routes:
+        - id: rest # 自定义路由
+          uri: http://127.0.0.1:9090/getName # 被代理的 URI
+          predicates:
+            - Path=/services/name # 访问rest/hello就会路由到/hello的地址上
+          filters:
+            - StripPrefix=1
+              
 server:
   port: 8088 #0-随机端口
 
