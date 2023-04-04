@@ -1,0 +1,26 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
+//
+
+package com.ada.basis.inner.local;
+
+import com.ada.basis.inner.local.Outer.1Inner;
+
+public class Outer {
+    public String name = "外部类";
+    private int age = 18;
+    private int weight = 70;
+
+    public Outer() {
+    }
+
+    public void getLocalClass() {
+        (new 1Inner(this)).getOuterName();
+    }
+
+    public static void main(String[] args) {
+        Outer outer = new Outer();
+        outer.getLocalClass();
+    }
+}

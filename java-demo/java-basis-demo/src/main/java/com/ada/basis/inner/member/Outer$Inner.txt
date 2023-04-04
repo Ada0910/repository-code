@@ -1,0 +1,39 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
+//
+
+package com.ada.basis.inner.member;
+
+class Outer$Inner {
+    public int age;
+    private Double height;
+    public String name;
+
+    private Outer$Inner(final Outer this$0) {
+        this.this$0 = var1;
+        this.age = 30;
+        this.height = 1.7D;
+        this.name = "阿哒";
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    private Integer getAge() {
+        return this.age;
+    }
+
+    private Double getHeight() {
+        return this.height;
+    }
+
+    private Integer getWeight() {
+        return Outer.access$000(this.this$0);
+    }
+
+    public String gerParentName() {
+        return this.this$0.name;
+    }
+}

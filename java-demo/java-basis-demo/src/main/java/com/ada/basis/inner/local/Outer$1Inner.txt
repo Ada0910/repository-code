@@ -1,0 +1,22 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
+//
+
+package com.ada.basis.inner.local;
+
+class Outer$1Inner {
+    public String name;
+    private int age;
+
+    Outer$1Inner(final Outer this$0) {
+        this.this$0 = this$0;
+        this.name = "局部内部类";
+        this.age = 17;
+    }
+
+    public String getOuterName() {
+        System.out.println(this.this$0.name);
+        return this.this$0.name;
+    }
+}
