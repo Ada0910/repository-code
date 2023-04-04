@@ -1,10 +1,10 @@
-package com.ada.srping;
+package com.ada.spring;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SrpingDemoApplicationTests {
+class SpringDemoApplicationTests {
 
 	@Test
 	void contextLoads() {
