@@ -3,8 +3,6 @@ package com.ada.spring.anno.registrar;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
-import com.ada.spring.anno.selector.ImportSelectorConfig;
-
 /**
  *
  * <b><code></code></b>
@@ -19,6 +17,6 @@ import com.ada.spring.anno.selector.ImportSelectorConfig;
  */
 @Import(ImportBeanDefinitionRegistrarConfig.class)
 @Configuration
-public class ImportConfig {
+public class ImportReistrarConfig {
 	
 }
