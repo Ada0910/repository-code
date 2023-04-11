@@ -43,17 +43,17 @@ public class MyDispatcherServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+		this.doPost(req,resp);
 	}
 
 	/**
 	 * 调用阶段
 	 */
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		//6.调用，运行阶段
 		try {
-			doDipatch(req, resp);
+			doDispatch(req, resp);
 		} catch (Exception e) {
 			e.printStackTrace();
 			resp.getWriter().write("500错误!," + Arrays.toString(e.getStackTrace()));
@@ -97,7 +97,7 @@ public class MyDispatcherServlet extends HttpServlet {
 		//从配置中获取参数(加载的web.xml中param-name对应的param-value)
 		String contextConfigLocation = config.getInitParameter("contextConfigLocation");
 		//获取文件的配置文件流
-		InputStream fis = this.getClass().getResourceAsStream(contextConfigLocation);
+		InputStream fis = this.getClass().getClassLoader().getResourceAsStream(contextConfigLocation);
 		try {
 			//读取配置到properties中
 			contextConfig.load(fis);
@@ -284,7 +284,7 @@ public class MyDispatcherServlet extends HttpServlet {
 	/**
 	 * 调用，运行阶段
 	 */
-	private void doDipatch(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+	private void doDispatch(HttpServletRequest req, HttpServletResponse resp) throws Exception {
 		//获取请求的URL（绝对路径）
 		String url = req.getRequestURI();
 		String contextPath = req.getContextPath();
@@ -307,8 +307,9 @@ public class MyDispatcherServlet extends HttpServlet {
 		//实参数组
 		Object[] paramValues = new Object[parameterTypes.length];
 
+		Map<String, String[]> paramMap = req.getParameterMap();
 		for (int i = 0; i < parameterTypes.length; i++) {
-			Class<?> parameterType = parameterTypes[i];
+			Class parameterType = parameterTypes[i];
 			if (parameterType == HttpServletRequest.class) {
 				paramValues[i] = req;
 				continue;
@@ -317,15 +318,14 @@ public class MyDispatcherServlet extends HttpServlet {
 				continue;
 			} else if (parameterType == String.class) {
 				//投机取巧的方法
-				Map<String, String[]> paramMap = req.getParameterMap();
 
-				MyRequestParam requestParam = parameterType.getAnnotation(MyRequestParam.class);
-				if (paramMap.containsKey(requestParam.value())) {
+				MyRequestParam requestParam = (MyRequestParam) parameterType.getAnnotation(MyRequestParam.class);
+				//if (paramMap.containsKey(requestParam.value())) {
 					for (Map.Entry<String, String[]> entry : paramMap.entrySet()) {
 						String value = Arrays.toString(entry.getValue()).replaceAll("\\[|\\]", "").replace("\\s", "");
 						paramValues[i] = value;
 					}
-				}
+				//}
 			}
 
 		}

@@ -141,38 +141,38 @@
                 </configuration>
             </plugin>
 
-            <!--<plugin>-->
-            <!--    <groupId>org.apache.maven.plugins</groupId>-->
-            <!--    <artifactId>maven-war-plugin</artifactId>-->
-            <!--    <version>/version>-->
-            <!--    <configuration>-->
-            <!--        <archive>-->
-            <!--            <addMavenDescriptor>false</addMavenDescriptor>-->
-            <!--        </archive>-->
-            <!--        <webResources>-->
-            <!--            <resource>-->
-            <!--                &lt;!&ndash; this is relative to the pom.xml directory &ndash;&gt;-->
-            <!--                <directory>src/main/resources/</directory>-->
-            <!--                <targetPath>WEB-INF/classes</targetPath>-->
-            <!--                <includes>-->
-            <!--                    <include>**/*.*</include>-->
-            <!--                </includes>-->
-            <!--                &lt;!&ndash; <excludes>-->
-            <!--                    <exclude>**/local</exclude>-->
-            <!--                    <exclude>**/test</exclude>-->
-            <!--                    <exclude>**/product</exclude>-->
-            <!--                </excludes> &ndash;&gt;-->
-            <!--                <filtering>true</filtering>-->
-            <!--            </resource>-->
-            <!--            <resource>-->
-            <!--                &lt;!&ndash; this is relative to the pom.xml directory &ndash;&gt;-->
-            <!--                <directory>src/main/resources</directory>-->
-            <!--                <targetPath>WEB-INF/classes</targetPath>-->
-            <!--                <filtering>true</filtering>-->
-            <!--            </resource>-->
-            <!--        </webResources>-->
-            <!--    </configuration>-->
-            <!--</plugin>-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <archive>
+                        <addMavenDescriptor>false</addMavenDescriptor>
+                    </archive>
+                    <webResources>
+                        <resource>
+                            <!-- this is relative to the pom.xml directory -->
+                            <directory>src/main/resources/</directory>
+                            <targetPath>WEB-INF/classes</targetPath>
+                            <includes>
+                                <include>**/*.*</include>
+                            </includes>
+                            <!-- <excludes>
+                                <exclude>**/local</exclude>
+                                <exclude>**/test</exclude>
+                                <exclude>**/product</exclude>
+                            </excludes> -->
+                            <filtering>true</filtering>
+                        </resource>
+                        <resource>
+                            <!-- this is relative to the pom.xml directory -->
+                            <directory>src/main/resources</directory>
+                            <targetPath>WEB-INF/classes</targetPath>
+                            <filtering>true</filtering>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.zeroturnaround</groupId>
                 <artifactId>javarebel-maven-plugin</artifactId>

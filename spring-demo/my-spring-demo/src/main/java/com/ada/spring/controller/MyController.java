@@ -18,9 +18,8 @@ public class MyController {
   	@MyAutowired
     private IMyService demoService;
 
-	@MyRequestMapping("/query.*")
-	public void query(HttpServletRequest req, HttpServletResponse resp,
-					  @MyRequestParam("name") String name){
+	@MyRequestMapping("/query/name")
+	public void query(HttpServletRequest req, HttpServletResponse resp, @MyRequestParam("name")String name){
 //		String result = demoService.get(name);
 		String result = "My name is " + name;
 		try {
