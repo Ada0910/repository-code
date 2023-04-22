@@ -13,6 +13,8 @@ import java.util.concurrent.CountDownLatch;
  * 我们来模拟一个场景
  * 某公司一共有十个人,门卫要等十个人都来上班以后,才可以休息
  *
+ * CountDownLatch类似于10人找了一个代购，代购收齐了10个客户的钱才买票出国购物，
+ * 而CyclicBarrier类似10个拼团购物，人齐了之后开团了，这10个自己买自己的哈
  * <p/>
  *
  * @Date: 2023/4/22 23:45
