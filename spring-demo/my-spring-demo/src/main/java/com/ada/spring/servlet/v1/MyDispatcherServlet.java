@@ -19,7 +19,9 @@ import java.util.*;
  *
  * <b><code></code></b>
  * <p/>  
- * 自定义我的MyDispatcherServlet
+ * 自定义我的MyDispatcherServlet（v1版本的入口
+ * ‘；）
+ *
  * <p/>
  *
  * @Date: 2023/4/9 12:44
