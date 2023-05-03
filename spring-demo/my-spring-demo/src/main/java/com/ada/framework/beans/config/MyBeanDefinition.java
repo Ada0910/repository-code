@@ -23,4 +23,6 @@ public class MyBeanDefinition {
 
 	private String factoryBeanName;
 
+	private boolean isSingleton = true;
+
 }

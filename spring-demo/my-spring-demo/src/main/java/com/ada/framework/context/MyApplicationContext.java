@@ -3,11 +3,18 @@ package com.ada.framework.context;
 import com.ada.framework.beans.MyBeanFactory;
 import com.ada.framework.beans.MyBeanWrapper;
 import com.ada.framework.beans.config.MyBeanDefinition;
+import com.ada.framework.beans.config.MyBeanPostProcessor;
 import com.ada.framework.beans.support.MyBeanDefinitionReader;
 import com.ada.framework.beans.support.MyDefaultListableBeanFactory;
+import com.ada.spring.anno.MyAutowired;
+import com.ada.spring.anno.MyController;
+import com.ada.spring.anno.MyService;
 
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  *
@@ -26,6 +33,10 @@ public class MyApplicationContext extends MyDefaultListableBeanFactory implement
 	private String[] configLocations;
 
 	private MyBeanDefinitionReader reader;
+
+	private Map<String, Object> singletonObjects = new ConcurrentHashMap<>();
+
+	private Map<String, MyBeanWrapper> factoryBeanInstanceCache = new ConcurrentHashMap<>();
 
 
 	public MyApplicationContext(String... configLocations) {
@@ -65,13 +76,17 @@ public class MyApplicationContext extends MyDefaultListableBeanFactory implement
 	 *  把不是延时加载的类，提前实例化
 	 */
 	private void doAutowired() {
-		//	只处理非延时加载的情况
-		for (Map.Entry<String, MyBeanDefinition> beanDefinitionEntry : beanDefinitionMap.entrySet()) {
-			String beanName = (String) getBean(beanDefinitionEntry.getKey());
+		try {
+			//	只处理非延时加载的情况
+			for (Map.Entry<String, MyBeanDefinition> beanDefinitionEntry : beanDefinitionMap.entrySet()) {
+				String beanName = (String) getBean(beanDefinitionEntry.getKey());
 
-			if (!beanDefinitionEntry.getValue().getLazyInit()) {
-				getBean(beanName);
+				if (!beanDefinitionEntry.getValue().getLazyInit()) {
+					getBean(beanName);
+				}
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 	}
@@ -81,28 +96,114 @@ public class MyApplicationContext extends MyDefaultListableBeanFactory implement
 	 * 提供一个获取全局bean的方法
 	 */
 	@Override
-	public Object getBean(String beanName) {
+	public Object getBean(String beanName) throws Exception {
+
+		MyBeanDefinition beanDefinition = this.beanDefinitionMap.get(beanName);
+
 		//1.初始化
-		instantiateBean(beanName, new MyBeanDefinition());
+		Object instance = instantiateBean(beanName, beanDefinition);
 
-		//	2.注入
-		populateBean(beanName, new MyBeanDefinition(), new MyBeanWrapper());
+		//前置通知
+		MyBeanPostProcessor beanPostProcessor = new MyBeanPostProcessor();
+		beanPostProcessor.postProcessBeforeInitialization(instance, beanName);
 
-		return null;
+		//3.把这个对象封装到beanWrapper中
+		MyBeanWrapper beanWrapper = new MyBeanWrapper(instance);
+
+		//2.拿到BeanWrapper之后，把BeanWrapper保存到IOC容器中
+		this.factoryBeanInstanceCache.put(beanName, beanWrapper);
+
+
+		//后置通知
+		beanPostProcessor.postProcessAfterInitialization(instance, beanName);
+
+		//	3.注入
+		populateBean(beanName, new MyBeanDefinition(), beanWrapper);
+
+		return this.factoryBeanInstanceCache.get(beanName).getWrappedInstance();
 	}
 
 
 	/**
 	 * 初始化
 	 */
-	private void instantiateBean(String beanName, MyBeanDefinition beanDefinition) {
+	private Object instantiateBean(String beanName, MyBeanDefinition beanDefinition) {
+		//1.拿到实例化的对象的类名
+		String className = beanDefinition.getBeanClassName();
+
+		//2.反射实例化
+		Object instance = null;
+		try {
+			if (this.singletonObjects.containsKey(className)) {
+				instance = this.singletonObjects.get(className);
+			} else {
+				Class<?> clazz = Class.forName(className);
+				instance = clazz.newInstance();
+				this.singletonObjects.put(className, instance);
+				this.singletonObjects.put(beanDefinition.getFactoryBeanName(), instance);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+
+		//4.把beanWrapper存到IOC容器中
+		return instance;
 	}
 
 	/**
 	 * 注入
 	 */
-	private void populateBean(String beanName, MyBeanDefinition myBeanDefinition, MyBeanWrapper myBeanWrapper) {
+	private void populateBean(String beanName, MyBeanDefinition beanDefinition, MyBeanWrapper beanWrapper) {
+		Object instance = beanWrapper.getWrappedInstance();
+
+		//判断只有加了注解的类，才执行依赖注入
+		Class<?> clazz = beanWrapper.getWrappedClass();
+
+		if (!(clazz.isAnnotationPresent(MyController.class) || clazz.isAnnotationPresent(MyService.class))) {
+			return;
+		}
+
+		//获得所有fields
+		Field[] fields = clazz.getDeclaredFields();
+		for (Field field : fields) {
+			if (!field.isAnnotationPresent(MyAutowired.class)) {
+				continue;
+			}
+			MyAutowired autowired = field.getAnnotation(MyAutowired.class);
+			String value = autowired.value().trim();
+
+			if ("".equals(value)) {
+				value = field.getType().getName();
+			}
+
+			field.setAccessible(true);
+
+			try {
+				field.set(instance, this.factoryBeanInstanceCache.get(value).getWrappedClass());
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
+
+	/**
+	 * 获取所有BeanDefinition的名字
+	 */
+	public String[] getBeanDefinitionNames() {
+		return this.beanDefinitionMap.keySet().toArray(new String[this.beanDefinitionMap.size()]);
+	}
+
+	/**
+	 * 获取到beanDefinition有多少个对象
+	 */
+	public int getBeanDefinitionCount() {
+		return this.beanDefinitionMap.size();
+	}
+
+	public Properties getConfig(){
+		return this.reader.getConfig();
+	}
 
 }

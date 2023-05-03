@@ -14,17 +14,25 @@ package com.ada.framework.beans;
  */
 public class MyBeanWrapper {
 
+	private Object wrappedInstance;
+
+	private Class<?> wrappedClass;
+
+	public MyBeanWrapper(Object wrappedInstance) {
+		this.wrappedInstance = wrappedInstance;
+	}
+
 	/**
 	 * Return the bean instance wrapped by this object.
 	 */
-	Object getWrappedInstance() {
-		return null;
+	public Object getWrappedInstance() {
+		return this.wrappedInstance;
 	}
 
 	/**
 	 * Return the type of the wrapped bean instance.
 	 */
-	Class<?> getWrappedClass() {
-		return null;
+	public Class<?> getWrappedClass() {
+		return this.wrappedInstance.getClass();
 	}
 }

@@ -17,5 +17,5 @@ public interface MyBeanFactory {
 	/**
 	 * 根据beanName从IOC容器中获取一个实例Bean
 	 */
-	Object getBean(String beanName);
+	Object getBean(String beanName) throws Exception;
 }
