@@ -89,10 +89,20 @@ public class MyDispatcherServlet extends HttpServlet {
 	private void processDispatchResult(HttpServletRequest req, HttpServletResponse resp, MyModelAndView mv) {
 		if (null == mv) {
 			return;
+
 		}
 	}
 
 	private MyHandlerAdapter getHandlerAdapter(MyHandlerMapping handler) {
+		if (this.handlerAdapters.isEmpty()) {
+			return null;
+		}
+
+		MyHandlerAdapter ha = this.handlerAdapters.get(handler);
+		if (ha.supports(handler)) {
+			return ha;
+		}
+
 		return null;
 	}
 
@@ -130,7 +140,7 @@ public class MyDispatcherServlet extends HttpServlet {
 		String templateRootPath = this.getClass().getClassLoader().getResource(templateRoot).getFile();
 		File templateRootDir = new File(templateRootPath);
 
-		for (File template : templateRootDir.listFiles()) {
+		for (String template : templateRootDir.list()) {
 			this.viewResolvers.add(new MyViewResolver(templateRoot));
 		}
 	}
