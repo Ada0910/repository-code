@@ -17,6 +17,7 @@ import java.util.Map;
  *
  */
 public class MyView {
-	void render(Map<String, ?> model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public void render(Map<String, ?> model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
 	}
 }

@@ -18,7 +18,7 @@ public class MyViewResolver {
 	public MyViewResolver(String templateRoot) {
 	}
 
-	MyView resolveViewName(String viewName, Locale locale) throws Exception {
+	public MyView resolveViewName(String viewName, Locale locale) throws Exception {
 		return null;
 	}
 }

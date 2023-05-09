@@ -1,10 +1,7 @@
 package com.ada.framework.webmvc;
 
 import com.ada.framework.context.MyApplicationContext;
-import com.ada.framework.webmvc.servlet.MyHandlerAdapter;
-import com.ada.framework.webmvc.servlet.MyHandlerMapping;
-import com.ada.framework.webmvc.servlet.MyModelAndView;
-import com.ada.framework.webmvc.servlet.MyViewResolver;
+import com.ada.framework.webmvc.servlet.*;
 import com.ada.spring.anno.MyController;
 import com.ada.spring.anno.MyRequestMapping;
 import lombok.extern.slf4j.Slf4j;
@@ -86,10 +83,19 @@ public class MyDispatcherServlet extends HttpServlet {
 	/**
 	 * 变成一个HTML
 	 */
-	private void processDispatchResult(HttpServletRequest req, HttpServletResponse resp, MyModelAndView mv) {
+	private void processDispatchResult(HttpServletRequest req, HttpServletResponse resp, MyModelAndView mv) throws Exception {
 		if (null == mv) {
 			return;
+		}
 
+		//如果modelAndView不为null，则该如何处理
+		if (this.viewResolvers.isEmpty()) {
+			return;
+		}
+
+		for (MyViewResolver viewResolver : this.viewResolvers) {
+			MyView view = viewResolver.resolveViewName(mv.getViewName(), null);
+			view.render(mv.getModel(), req, resp);
 		}
 	}
 
