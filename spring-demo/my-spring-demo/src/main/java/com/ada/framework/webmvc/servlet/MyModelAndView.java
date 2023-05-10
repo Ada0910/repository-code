@@ -14,7 +14,7 @@ import java.util.Map;
  * @Version 1.0.0.1
  *
  */
-public class MyModelAndView {
+public class  MyModelAndView {
 	String viewName;
 
 	Map<String, ?> model;

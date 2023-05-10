@@ -67,6 +67,7 @@ public class MyDispatcherServlet extends HttpServlet {
 		MyHandlerMapping handler = getHandler(req);
 		if (handler == null) {
 			//404
+			processDispatchResult(req,resp,new MyModelAndView("404"));
 			return;
 		}
 
