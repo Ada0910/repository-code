@@ -16,7 +16,7 @@ public class MyExecutor {
             Class.forName("com.mysql.jdbc.Driver");
 
             // 打开连接
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/gp-mybatis", "root", "123456");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/gp-mybatis", "root", "123");
 
             // 执行查询
             stmt = conn.createStatement();
