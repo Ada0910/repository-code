@@ -3,7 +3,7 @@ package com.ada.mybatis.v2.session;
 import com.ada.mybatis.v2.executor.Executor;
 
 /**
- * MeBatis的API，提供给应用层使用
+ * MyBatis的API，提供给应用层使用
  */
 public class DefaultSqlSession {
     private Configuration configuration;

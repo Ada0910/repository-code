@@ -1,9 +1,10 @@
 package com.ada.mybatis.v2;
 
-import com.gupaoedu.mybatis.v2.mapper.Blog;
-import com.gupaoedu.mybatis.v2.mapper.BlogMapper;
-import com.gupaoedu.mybatis.v2.session.DefaultSqlSession;
-import com.gupaoedu.mybatis.v2.session.SqlSessionFactory;
+
+import com.ada.mybatis.v1.mapper.Blog;
+import com.ada.mybatis.v1.mapper.BlogMapper;
+import com.ada.mybatis.v2.session.DefaultSqlSession;
+import com.ada.mybatis.v2.session.SqlSessionFactory;
 
 public class TestMybatis {
 
