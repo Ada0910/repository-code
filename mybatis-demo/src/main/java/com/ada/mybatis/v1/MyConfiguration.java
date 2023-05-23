@@ -3,6 +3,9 @@ package com.ada.mybatis.v1;
 import java.lang.reflect.Proxy;
 import java.util.ResourceBundle;
 
+/**
+ *  配置类，获取配置信息
+ */
 public class MyConfiguration {
     public static final ResourceBundle sqlMappings;
 

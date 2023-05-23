@@ -16,7 +16,7 @@ public class MyExecutor {
             Class.forName("com.mysql.jdbc.Driver");
 
             // 打开连接
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/gp-mybatis", "root", "123");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "123");
 
             // 执行查询
             stmt = conn.createStatement();
@@ -27,7 +27,7 @@ public class MyExecutor {
             while (rs.next()) {
                 Integer bid = rs.getInt("bid");
                 String name = rs.getString("name");
-                Integer authorId = rs.getInt("author_id");
+                Integer authorId = rs.getInt("authorId");
                 blog.setAuthorId(authorId);
                 blog.setBid(bid);
                 blog.setName(name);
