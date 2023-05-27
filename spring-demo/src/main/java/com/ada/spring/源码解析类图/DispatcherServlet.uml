@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>org.springframework.web.servlet.DispatcherServlet</OriginalElement>
+  <nodes>
+    <node x="48.0" y="0.0">javax.servlet.ServletConfig</node>
+    <node x="239.00000000000003" y="162.0">javax.servlet.http.HttpServlet</node>
+    <node x="220.00000000000003" y="245.0">org.springframework.web.servlet.HttpServletBean</node>
+    <node x="0.0" y="162.0">java.lang.SuppressWarnings</node>
+    <node x="258.0" y="0.0">javax.servlet.Servlet</node>
+    <node x="717.6955782312925" y="81.0">org.springframework.beans.factory.Aware</node>
+    <node x="215.00000000000003" y="330.0">org.springframework.web.servlet.FrameworkServlet</node>
+    <node x="411.0" y="0.0">java.io.Serializable</node>
+    <node x="102.5" y="413.0">org.springframework.web.servlet.DispatcherServlet</node>
+    <node x="430.0" y="162.0">org.springframework.context.EnvironmentAware</node>
+    <node x="669.0" y="162.0">org.springframework.core.env.EnvironmentCapable</node>
+    <node x="224.50000000000003" y="81.0">javax.servlet.GenericServlet</node>
+    <node x="927.0" y="162.0">org.springframework.context.ApplicationContextAware</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="javax.servlet.GenericServlet" target="javax.servlet.ServletConfig" relationship="REALIZATION">
+      <point x="0.0" y="-15.5" />
+      <point x="324.5" y="56.0" />
+      <point x="143.0" y="56.0" />
+      <point x="0.0" y="15.5" />
+    </edge>
+    <edge source="javax.servlet.GenericServlet" target="javax.servlet.Servlet" relationship="REALIZATION">
+      <point x="0.0" y="-15.5" />
+      <point x="0.0" y="15.5" />
+    </edge>
+    <edge source="javax.servlet.http.HttpServlet" target="javax.servlet.GenericServlet" relationship="GENERALIZATION">
+      <point x="0.0" y="-15.5" />
+      <point x="0.0" y="15.5" />
+    </edge>
+    <edge source="org.springframework.web.servlet.FrameworkServlet" target="org.springframework.web.servlet.HttpServletBean" relationship="GENERALIZATION">
+      <point x="0.0" y="-15.5" />
+      <point x="0.0" y="15.5" />
+    </edge>
+    <edge source="org.springframework.web.servlet.DispatcherServlet" target="java.lang.SuppressWarnings" relationship="ANNOTATION">
+      <point x="-57.25" y="-15.5" />
+      <point x="159.75" y="387.0" />
+      <point x="80.95578231292518" y="387.0" />
+      <point x="80.95578231292518" y="224.0" />
+      <point x="109.5" y="224.0" />
+      <point x="0.0" y="15.5" />
+    </edge>
+    <edge source="org.springframework.web.servlet.HttpServletBean" target="javax.servlet.http.HttpServlet" relationship="GENERALIZATION">
+      <point x="-1.4210854715202004E-14" y="-15.5" />
+      <point x="0.0" y="15.5" />
+    </edge>
+    <edge source="org.springframework.context.ApplicationContextAware" target="org.springframework.beans.factory.Aware" relationship="INTERFACE_GENERALIZATION">
+      <point x="0.0" y="-15.5" />
+      <point x="1070.0" y="137.0" />
+      <point x="774.1955782312925" y="137.0" />
+      <point x="0.0" y="15.5" />
+    </edge>
+    <edge source="org.springframework.web.servlet.DispatcherServlet" target="org.springframework.web.servlet.FrameworkServlet" relationship="GENERALIZATION">
+      <point x="57.25" y="-15.5" />
+      <point x="274.25" y="387.0" />
+      <point x="324.5" y="387.0" />
+      <point x="0.0" y="15.5" />
+    </edge>
+    <edge source="org.springframework.web.servlet.FrameworkServlet" target="org.springframework.context.ApplicationContextAware" relationship="REALIZATION">
+      <point x="73.0" y="-15.5" />
+      <point x="397.5" y="303.0" />
+      <point x="1070.0" y="303.0" />
+      <point x="0.0" y="15.5" />
+    </edge>
+    <edge source="org.springframework.context.EnvironmentAware" target="org.springframework.beans.factory.Aware" relationship="INTERFACE_GENERALIZATION">
+      <point x="0.0" y="-15.5" />
+      <point x="539.5" y="137.0" />
+      <point x="774.1955782312925" y="137.0" />
+      <point x="0.0" y="15.5" />
+    </edge>
+    <edge source="org.springframework.web.servlet.HttpServletBean" target="org.springframework.context.EnvironmentAware" relationship="REALIZATION">
+      <point x="69.66666666666669" y="-15.5" />
+      <point x="394.16666666666674" y="224.0" />
+      <point x="633.1955782312925" y="224.0" />
+      <point x="633.1955782312925" y="214.0" />
+      <point x="539.5" y="214.0" />
+      <point x="0.0" y="15.5" />
+    </edge>
+    <edge source="org.springframework.web.servlet.HttpServletBean" target="org.springframework.core.env.EnvironmentCapable" relationship="REALIZATION">
+      <point x="69.66666666666669" y="-15.5" />
+      <point x="394.16666666666674" y="224.0" />
+      <point x="633.1955782312925" y="224.0" />
+      <point x="633.1955782312925" y="214.0" />
+      <point x="788.0" y="214.0" />
+      <point x="0.0" y="15.5" />
+    </edge>
+    <edge source="org.springframework.web.servlet.HttpServletBean" target="java.lang.SuppressWarnings" relationship="ANNOTATION">
+      <point x="-69.66666666666669" y="-15.5" />
+      <point x="254.83333333333334" y="224.0" />
+      <point x="109.5" y="224.0" />
+      <point x="0.0" y="15.5" />
+    </edge>
+    <edge source="org.springframework.web.servlet.FrameworkServlet" target="java.lang.SuppressWarnings" relationship="ANNOTATION">
+      <point x="-73.0" y="-15.5" />
+      <point x="251.50000000000003" y="303.0" />
+      <point x="109.70578231292518" y="303.0" />
+      <point x="0.0" y="15.5" />
+    </edge>
+    <edge source="javax.servlet.GenericServlet" target="java.io.Serializable" relationship="REALIZATION">
+      <point x="0.0" y="-15.5" />
+      <point x="324.5" y="56.0" />
+      <point x="501.5" y="56.0" />
+      <point x="0.0" y="15.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.8410381184103812" showDependencies="false" x="606.5" y="222.59450337512055" />
+  <SelectedNodes>
+    <node>org.springframework.web.servlet.DispatcherServlet</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

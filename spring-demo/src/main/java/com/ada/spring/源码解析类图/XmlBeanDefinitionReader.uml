@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>org.springframework.beans.factory.xml.XmlBeanDefinitionReader</OriginalElement>
+  <nodes>
+    <node x="110.0" y="162.0">org.springframework.beans.factory.xml.XmlBeanDefinitionReader</node>
+    <node x="258.0" y="0.0">org.springframework.beans.factory.support.BeanDefinitionReader</node>
+    <node x="0.0" y="0.0">org.springframework.core.env.EnvironmentCapable</node>
+    <node x="86.0" y="81.0">org.springframework.beans.factory.support.AbstractBeanDefinitionReader</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="org.springframework.beans.factory.support.AbstractBeanDefinitionReader" target="org.springframework.beans.factory.support.BeanDefinitionReader" relationship="REALIZATION">
+      <point x="0.0" y="-15.5" />
+      <point x="253.0" y="56.0" />
+      <point x="387.0" y="56.0" />
+      <point x="0.0" y="15.5" />
+    </edge>
+    <edge source="org.springframework.beans.factory.support.AbstractBeanDefinitionReader" target="org.springframework.core.env.EnvironmentCapable" relationship="REALIZATION">
+      <point x="0.0" y="-15.5" />
+      <point x="253.0" y="56.0" />
+      <point x="119.0" y="56.0" />
+      <point x="0.0" y="15.5" />
+    </edge>
+    <edge source="org.springframework.beans.factory.xml.XmlBeanDefinitionReader" target="org.springframework.beans.factory.support.AbstractBeanDefinitionReader" relationship="GENERALIZATION">
+      <point x="0.0" y="-15.5" />
+      <point x="0.0" y="15.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="1.0" showDependencies="false" x="258.0" y="97.0" />
+  <SelectedNodes>
+    <node>org.springframework.beans.factory.xml.XmlBeanDefinitionReader</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
