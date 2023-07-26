@@ -25,7 +25,7 @@ public class ThreadResetDemo {
     private static int i;
 
     public static void main(String[] args) throws InterruptedException {
-//        testInterrupted();
+        //testInterrupted();
         testInterruptedException();
 
 
@@ -50,7 +50,6 @@ public class ThreadResetDemo {
         });
         //启动线程
         thread.start();
-
 
         TimeUnit.SECONDS.sleep(1);
         //把isInterrupted设置成true
@@ -84,13 +83,17 @@ public class ThreadResetDemo {
 
         });
         thread.start();
-
+        System.out.println(Thread.currentThread().isInterrupted());
+        //Object.wait、Thread.sleep 等被阻塞的线程被唤醒以后会
+        //通过 is_interrupted 方法判断中断标识的状态变化，如果发
+        //现中断标识为 true，则先清除中断标识，然后抛出InterruptedException
         TimeUnit.SECONDS.sleep(1);
 
         //把isInterrupted设置成true
         thread.interrupt();
 
         System.out.println(thread.isInterrupted()); //true
+        System.out.println(Thread.currentThread().isInterrupted());
 
     }
 
