@@ -13,17 +13,19 @@ package com.ada.multi.thread.volati;
  *
  */
 public class VolatileDemo {
-    public static /*volatile*/ Boolean stop = false;
+    //public static Boolean stop = false;
+    public static volatile Boolean stop = false;
+
     public static void main(String[] args) throws InterruptedException {
-        Thread t1=new Thread(()->{
-            int i=0;
-            while(!stop){ //condition 不满足
+        Thread t1 = new Thread(() -> {
+            int i = 0;
+            while (!stop) { //condition 不满足
                 i++;
-                System.out.println("i:"+i);
+                System.out.println("i:" + i);
             }
         });
         t1.start();
         Thread.sleep(1000);
-        stop=true; //true
+        stop = true; //true
     }
 }
