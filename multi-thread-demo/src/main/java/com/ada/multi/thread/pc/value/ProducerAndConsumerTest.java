@@ -1,4 +1,4 @@
-package com.ada.multi.thread.pc;
+package com.ada.multi.thread.pc.value;
 
 /**
  *
@@ -24,14 +24,15 @@ public class ProducerAndConsumerTest {
 		for (int i = 0; i < 2; i++) {
 			pThread[i] = new ThreadP(p);
 			pThread[i].setName("生产者：" + (i + 1));
-			pThread[i].start();
+
 
 			cThread[i] = new ThreadC(c);
 			cThread[i].setName("消费者：" + (i + 1));
+			pThread[i].start();
 			cThread[i].start();
 		}
 
-		Thread.sleep(1000);
+		Thread.sleep(5000);
 
 		Thread[] threads = new Thread[Thread.currentThread().getThreadGroup().activeCount()];
 		Thread.currentThread().getThreadGroup().enumerate(threads);

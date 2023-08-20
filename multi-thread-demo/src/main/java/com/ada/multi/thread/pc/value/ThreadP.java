@@ -1,4 +1,4 @@
-package com.ada.multi.thread.pc;
+package com.ada.multi.thread.pc.value;
 
 /**
  *
@@ -12,18 +12,20 @@ package com.ada.multi.thread.pc;
  *
  * @since gnete 1.0.0.1
  */
-public class ThreadC extends Thread {
+public class ThreadP extends Thread {
 
-	private ComsumerDemo comsumerDemo;
+	private ProducerDemo producerDemo;
 
-	public ThreadC(ComsumerDemo comsumerDemo) {
-		this.comsumerDemo = comsumerDemo;
+	public ThreadP(ProducerDemo producerDemo) {
+		this.producerDemo = producerDemo;
 	}
 
 	@Override
 	public void run() {
 		while (true) {
-			comsumerDemo.getValue();
+			producerDemo.setValue();
 		}
+
+
 	}
 }
