@@ -25,7 +25,9 @@ public class MyThread  extends  Thread{
 		//饿汉式
 		//System.out.println("hashCode是："+ HungryObject.getInstance().hashCode());
 		//懒汉式
-		System.out.println("hashCode是："+ LazyObject.getInstance().hashCode());
+		//System.out.println("hashCode是："+ LazyObject.getInstance().hashCode());
+		// 静态内部类
+		System.out.println("hashCode是："+ StaticObject.getInstance().hashCode());
 		countDownLatch.countDown();
 	}
 
