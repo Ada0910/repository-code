@@ -20,7 +20,8 @@ public class LockInterruptiblyTest {
 		Runnable runnable = new Runnable() {
 			@Override
 			public void run() {
-				service.waitMethod();
+				//service.waitMethod();
+				service.tryLock();
 			}
 		};
 		
@@ -32,7 +33,7 @@ public class LockInterruptiblyTest {
 		Thread threadB = new Thread(runnable);
 		threadB.setName("B");
 		threadB.start();
-		threadB.interrupt();
+		//threadB.interrupt();
 		System.out.println("主线程执行完毕！");
 	}
 }

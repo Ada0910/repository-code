@@ -39,4 +39,12 @@ public class LockInterruptiblyService {
 			}
 		}
 	}
+	
+	public void tryLock(){
+		if(lock.tryLock()){
+			System.out.println("线程：" + Thread.currentThread().getName() +"获得锁！");
+		}else{
+			System.out.println("线程：" + Thread.currentThread().getName() +"没有获得锁！");
+		}
+	}
 }
