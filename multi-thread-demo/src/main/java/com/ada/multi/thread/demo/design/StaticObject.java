@@ -1,4 +1,4 @@
-package com.ada.multi.thread.design.simple;
+package com.ada.multi.thread.demo.design;
 
 /**
  *

@@ -1,4 +1,4 @@
-package com.ada.multi.thread.pc.stack;
+package com.ada.multi.thread.demo.pc.stack;
 
 import java.util.ArrayList;
 import java.util.List;
