@@ -18,7 +18,7 @@ import com.ada.software.design.proxy.db.DataSourceEntity;
  * @author xiewn
  * @version 1.0.0.1
  *
- * @since gnete 1.0.0.1
+ * @since  1.0.0.1
  */
 public class OrderServiceDynamicProxy implements InvocationHandler {
 	private SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");

@@ -20,7 +20,7 @@ import org.apache.rocketmq.common.message.MessageQueue;
  * @author xiewn
  * @version 1.0.0.1
  *
- * @since gnete 1.0.0.1
+ * @since  1.0.0.1
  */
 public class RocketMQProducer {
 	public static void main(String[] args) throws Exception {

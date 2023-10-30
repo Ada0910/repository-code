@@ -10,7 +10,7 @@ package com.ada.multi.thread.demo.design;
  * @author xiewn
  * @version 1.0.0.1
  *
- * @since gnete 1.0.0.1
+ * @since  1.0.0.1
  */
 public class LazyObject {
 	private static LazyObject object ;

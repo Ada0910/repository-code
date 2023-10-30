@@ -13,7 +13,7 @@ import java.util.UUID;
  * @author xiewn
  * @version 1.0.0.1
  *
- * @since gnete 1.0.0.1
+ * @since  1.0.0.1
  */
 public class UnSafeHashMap {
 	public static void main(String[] args) throws  Exception{

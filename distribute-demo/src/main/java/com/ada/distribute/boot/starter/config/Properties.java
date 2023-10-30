@@ -14,7 +14,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @author xiewn
  * @version 1.0.0.1
  *
- * @since gnete 1.0.0.1
+ * @since  1.0.0.1
  */
 @ConfigurationProperties(prefix = Properties.FORMAT_PREFIX)
 public class Properties {

@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Import;
  * @author xiewn
  * @version 1.0.0.1
  *
- * @since gnete 1.0.0.1
+ * @since  1.0.0.1
  */
 @Import(ImportBeanDefinitionRegistrarConfig.class)
 @Configuration

@@ -15,7 +15,7 @@ import com.ada.software.design.proxy.db.dynamic.OrderServiceDynamicProxy;
  * @author xiewn
  * @version 1.0.0.1
  *
- * @since gnete 1.0.0.1
+ * @since  1.0.0.1
  */
 public class DbRouteProxyTest {
 	public static void main(String[] args) throws Exception {

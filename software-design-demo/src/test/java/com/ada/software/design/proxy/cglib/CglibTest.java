@@ -12,7 +12,7 @@ import org.springframework.cglib.core.DebuggingClassWriter;
  * @author xiewn
  * @version 1.0.0.1
  *
- * @since gnete 1.0.0.1
+ * @since  1.0.0.1
  */
 public class CglibTest {
 	public static void main(String[] args) throws Exception {

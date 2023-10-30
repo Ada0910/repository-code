@@ -10,7 +10,7 @@ package com.ada.multi.thread.demo.pc.value;
  * @author xiewn
  * @version 1.0.0.1
  *
- * @since gnete 1.0.0.1
+ * @since  1.0.0.1
  */
 public class ProducerAndConsumerTest {
 	public static void main(String[] args) throws InterruptedException {

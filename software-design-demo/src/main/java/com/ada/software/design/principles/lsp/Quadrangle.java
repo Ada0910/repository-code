@@ -10,7 +10,7 @@ package com.ada.software.design.principles.lsp;
  * @author xiewn
  * @version 1.0.0.1
  *
- * @since gnete 1.0.0.1
+ * @since  1.0.0.1
  */
 public interface Quadrangle {
 	long getWidth();

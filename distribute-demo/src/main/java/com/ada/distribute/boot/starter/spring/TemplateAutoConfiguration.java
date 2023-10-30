@@ -24,7 +24,7 @@ import com.ada.distribute.boot.starter.format.IFormatProcessor;
  * @author xiewn
  * @version 1.0.0.1
  *
- * @since gnete 1.0.0.1
+ * @since  1.0.0.1
  */
 @Import(FormatAutoConfiguration.class)
 @EnableConfigurationProperties(Properties.class)

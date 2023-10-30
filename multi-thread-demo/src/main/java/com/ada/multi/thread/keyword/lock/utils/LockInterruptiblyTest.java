@@ -12,7 +12,7 @@ package com.ada.multi.thread.keyword.lock.utils;
  * @author xiewn
  * @version 1.0.0.1
  *
- * @since gnete 1.0.0.1
+ * @since  1.0.0.1
  */
 public class LockInterruptiblyTest {
 	public static void main(String[] args) throws InterruptedException {

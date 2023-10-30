@@ -10,7 +10,7 @@ package com.ada.software.design.proxy.db;
  * @author xiewn
  * @version 1.0.0.1
  *
- * @since gnete 1.0.0.1
+ * @since  1.0.0.1
  */
 public class DataSourceEntity {
 	public final static String DEFAULE_SOURCE = null;

@@ -12,7 +12,7 @@ import java.lang.reflect.Method;
  * @author xiewn
  * @version 1.0.0.1
  *
- * @since gnete 1.0.0.1
+ * @since  1.0.0.1
  */
 public interface MyInvocationHandler {
 	public Object invoke(Object proxy, Method method, Object[] args)

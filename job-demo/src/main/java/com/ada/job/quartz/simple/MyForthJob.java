@@ -19,7 +19,7 @@ import org.quartz.JobExecutionException;
  * @author xiewn
  * @version 1.0.0.1
  *
- * @since gnete 1.0.0.1
+ * @since  1.0.0.1
  */
 @DisallowConcurrentExecution
 public class MyForthJob  implements Job {

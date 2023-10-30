@@ -10,7 +10,7 @@ package com.ada.multi.thread.keyword.volati.demo;
  * @author xiewn
  * @version 1.0.0.1
  *
- * @since gnete 1.0.0.1
+ * @since  1.0.0.1
  */
 public class MyThread extends Thread {
 	public volatile static int count;

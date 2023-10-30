@@ -13,7 +13,7 @@ import java.util.concurrent.CountDownLatch;
  * @author xiewn
  * @version 1.0.0.1
  *
- * @since gnete 1.0.0.1
+ * @since  1.0.0.1
  */
 public class CountDownLatchDemo extends Thread {
 	/**
@@ -50,7 +50,7 @@ public class CountDownLatchDemo extends Thread {
 	 * @return void
 	 * @throws Exception
 	 * @Date 16:41 2022/9/21
-	 * @since gnete 1.0.0.1
+	 * @since  1.0.0.1
 	 */
 	private static void simpleDemo() throws InterruptedException {
 		CountDownLatch countDownLatch = new CountDownLatch(3);
@@ -76,7 +76,7 @@ public class CountDownLatchDemo extends Thread {
 	 * @return void
 	 * @throws Exception
 	 * @Date 16:41 2022/9/21
-	 * @since gnete 1.0.0.1
+	 * @since  1.0.0.1
 	 */
 	private static void hightConcurrnetDemo() {
 		for (int i = 0; i < 3; i++) {

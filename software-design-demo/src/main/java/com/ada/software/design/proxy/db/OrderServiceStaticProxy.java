@@ -13,7 +13,7 @@ import java.util.Date;
  * @author xiewn
  * @version 1.0.0.1
  *
- * @since gnete 1.0.0.1
+ * @since  1.0.0.1
  */
 public class OrderServiceStaticProxy implements IOrderService {
 	private SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");

@@ -13,7 +13,7 @@ import java.util.concurrent.CyclicBarrier;
  * @author xiewn
  * @version 1.0.0.1
  *
- * @since gnete 1.0.0.1
+ * @since  1.0.0.1
  */
 public class DataImportThread extends Thread {
 

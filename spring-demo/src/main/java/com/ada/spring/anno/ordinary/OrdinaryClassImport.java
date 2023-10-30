@@ -12,7 +12,7 @@ package com.ada.spring.anno.ordinary;
  * @author xiewn
  * @version 1.0.0.1
  *
- * @since gnete 1.0.0.1
+ * @since  1.0.0.1
  */
 public class OrdinaryClassImport {
 	public void printName() {

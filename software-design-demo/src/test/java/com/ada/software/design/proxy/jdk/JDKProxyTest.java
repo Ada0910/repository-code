@@ -16,7 +16,7 @@ import com.ada.software.design.proxy.Person;
  * @author xiewn
  * @version 1.0.0.1
  *
- * @since gnete 1.0.0.1
+ * @since  1.0.0.1
  */
 public class JDKProxyTest {
 	public static void main(String[] args) throws Exception {
