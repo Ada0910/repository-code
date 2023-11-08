@@ -31,7 +31,7 @@ AOP 编程的常用场景有：Authentication（权限认证）、Auto Caching�
 
 # Spring5的系统架构
 
-![image.png](./assets/image.png)
+![image.png](assets/image.png)
 
 ## Spring的核心模块
 
