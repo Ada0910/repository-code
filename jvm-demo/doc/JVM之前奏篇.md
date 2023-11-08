@@ -1,6 +1,6 @@
 # JVM的来源
 
-![img.png](./assets/img.png)
+![img.png](assets/img.png)
 
 ## 编译的过程
 
@@ -30,7 +30,7 @@ value  0xCAFEBABE .
 
 # 类加载机制
 
-![image.png](./assets/image.png)
+![image.png](assets/image.png)
 
 ## 类加载机制
 
@@ -53,7 +53,7 @@ c.解析 -- 将类中符号引用转为直接引用
 
 ## 加载原则
 
-![image.png](./assets/1667486429715-image.png)
+![image.png](assets/1667486429715-image.png)
 
 检查某个类是否已经加载：
 顺序是自底向上，从Custom ClassLoader到BootStrap ClassLoader逐层检查，只要某个Classloader已加载，就视为已加载此类，保证此类只所有ClassLoader加载一次。
@@ -84,7 +84,7 @@ Java类随着加载它的类加载器一起具备了一种带有优先级的层�
 
 # 运行时数据区
 
-![image.png](./assets/1667558471346-image.png)
+![image.png](assets/1667558471346-image.png)
 
 ## 方法区
 

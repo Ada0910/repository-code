@@ -1,7 +1,7 @@
 # 理解Java虚拟机栈和栈帧
 
 图解：
-![image.png](./assets/1667698150946-image.png)
+![image.png](assets/1667698150946-image.png)
 
 栈帧：每个栈帧对应一个被调用的方法，可以理解为一个方法的运行空间。
 每个栈帧中包括局部变量表(Local Variables)、操作数栈(Operand Stack)、指向运行时常量池的引用(A reference to the run-time constant pool)、方法返回地址(Return Address)和附加信息。
@@ -26,19 +26,19 @@ javac Person.java --- 编译成JAVA的class文件
 javap是 **Java class文件分解器** ，可以反编译，也可以查看java编译器生成的字节码。 用于分解class文件
 ```
 
-![image.png](./assets/1667700516012-image.png)
+![image.png](assets/1667700516012-image.png)
 
 方法区里可以指向堆，堆也可以指向方法区
 
 # Java对象内存布局
 
-![image.png](./assets/1667700740954-image.png)
+![image.png](assets/1667700740954-image.png)
 
 # 内存模型
 
-![image.png](./assets/1667701319237-image.png)
+![image.png](assets/1667701319237-image.png)
 
-![image.png](./assets/1667701642308-image.png)
+![image.png](assets/1667701642308-image.png)
 
 # 常见概念
 

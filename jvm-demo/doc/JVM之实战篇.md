@@ -80,7 +80,7 @@ java -XX:+PrintFlagsFinal -version > flags.txt
 
 ## 常用参数
 
-![image.png](./assets/1671116947885-image.png)
+![image.png](assets/1671116947885-image.png)
 
 # 常用命令
 
