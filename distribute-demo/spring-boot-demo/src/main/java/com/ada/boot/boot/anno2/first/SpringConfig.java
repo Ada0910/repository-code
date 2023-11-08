@@ -1,10 +1,11 @@
 package com.ada.boot.boot.anno2.first;
 
 
-import com.ada.distribute.boot.anno2.second.OtherConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+
+import com.ada.boot.boot.anno2.second.OtherConfig;
 
 /**
  *

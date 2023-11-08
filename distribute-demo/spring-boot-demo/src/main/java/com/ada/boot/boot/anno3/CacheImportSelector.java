@@ -5,7 +5,6 @@ import org.springframework.core.type.AnnotationMetadata;
 
 import java.util.Map;
 
-import com.ada.distribute.boot.anno3.EnableDefineService;
 
 /**
  *

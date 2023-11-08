@@ -6,9 +6,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
-import com.ada.distribute.boot.starter.format.IFormatProcessor;
-import com.ada.distribute.boot.starter.format.JsonFormatProcessor;
-import com.ada.distribute.boot.starter.format.StringFormatProcessor;
+import com.ada.boot.boot.starter.format.IFormatProcessor;
+import com.ada.boot.boot.starter.format.JsonFormatProcessor;
+import com.ada.boot.boot.starter.format.StringFormatProcessor;
 
 /**
  *

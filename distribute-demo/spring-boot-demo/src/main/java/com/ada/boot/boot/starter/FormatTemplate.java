@@ -1,7 +1,7 @@
 package com.ada.boot.boot.starter;
 
-import com.ada.distribute.boot.starter.config.Properties;
-import com.ada.distribute.boot.starter.format.IFormatProcessor;
+import com.ada.boot.boot.starter.config.Properties;
+import com.ada.boot.boot.starter.format.IFormatProcessor;
 
 /**
  *

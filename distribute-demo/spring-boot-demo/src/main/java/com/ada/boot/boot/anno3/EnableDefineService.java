@@ -1,10 +1,8 @@
 package com.ada.boot.boot.anno3;
 
-import org.springframework.context.annotation.Import;
-
 import java.lang.annotation.*;
 
-import com.ada.distribute.boot.anno3.LoggerDefinitionRegistrar;
+import org.springframework.context.annotation.Import;
 
 /**
  *

@@ -3,11 +3,6 @@ package com.ada.boot.boot.anno3;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.Conditional;
-
-import com.ada.distribute.boot.anno3.CacheService;
-import com.ada.distribute.boot.anno3.EnableDefineService;
-import com.ada.distribute.boot.anno3.LoggerService;
 
 /**
  *

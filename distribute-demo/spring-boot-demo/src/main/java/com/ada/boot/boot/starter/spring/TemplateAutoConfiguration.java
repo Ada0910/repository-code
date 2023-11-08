@@ -1,14 +1,13 @@
 package com.ada.boot.boot.starter.spring;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
-import com.ada.distribute.boot.starter.FormatTemplate;
-import com.ada.distribute.boot.starter.config.Properties;
-import com.ada.distribute.boot.starter.format.IFormatProcessor;
+import com.ada.boot.boot.starter.FormatTemplate;
+import com.ada.boot.boot.starter.config.Properties;
+import com.ada.boot.boot.starter.format.IFormatProcessor;
 
 /**
  *
@@ -37,7 +36,7 @@ public class TemplateAutoConfiguration {
 	 *  简直完美
 	 */
 	@Bean
-	public FormatTemplate getFormatTemplate(IFormatProcessor formatProcessor,Properties properties) {
+	public FormatTemplate getFormatTemplate(IFormatProcessor formatProcessor, Properties properties) {
 		return new FormatTemplate(formatProcessor,properties);
 	}
 
