@@ -1,13 +1,13 @@
-package com.ada.multi.thread;
+package com.ada.simple;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MultiThreadDemoApplicationTests {
+class SimpleDemoApplicationTests {
 
-    @Test
-    void contextLoads() {
-    }
+	@Test
+	void contextLoads() {
+	}
 
 }
