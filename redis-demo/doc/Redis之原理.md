@@ -61,7 +61,7 @@ publish news-music jaychou
 publish news-weather rain
 ```
 
-![image.png](./assets/1671465332546-image.png)
+![image.png](assets/1671465332546-image.png)
 
 # Redis事务
 
@@ -287,7 +287,7 @@ kv结构的内存数据库，时间复杂度为O（1）
 
 计算机主存（内存）可看作一个由 M 个连续的字节大小的单元组成的数组，每个字节有一个唯一的地址，这个地址叫做物理地址（PA）。早期的计算机中，如果 CPU 需要内存，使用物理寻址，直接访问主存储器
 
-![image.png](./assets/1672323683253-image.png)
+![image.png](assets/1672323683253-image.png)
 
 这种方式有几个弊端：
 1、在多用户多任务操作系统中，所有的进程共享主存，如果每个进程都独占一块物理地址空间，主存很快就会被用完。我们希望在不同的时刻，不同的进程可以共用同一块物理地址空间。
@@ -298,7 +298,7 @@ kv结构的内存数据库，时间复杂度为O（1）
 在 CPU 和主存之间增加一个中间层。CPU
 不再使用物理地址访问，而是访问一个虚拟地址，由这个中间层把地址转换成物理地址，最终获得数据。这个中间层就叫做虚拟存储器（Virtual Memory）
 
-![image.png](./assets/1672323775186-image.png)
+![image.png](assets/1672323775186-image.png)
 
 在每一个进程开始创建的时候，都会分配一段虚拟地址，然后通过虚拟地址和物理地址的映射来获取真实数据，这样进程就不会直接接触到物理地址，甚至不知道自己调用的哪块物理地址的数据
 
@@ -319,7 +319,7 @@ kv结构的内存数据库，时间复杂度为O（1）
 
 在 Linux 系统中, 内核进程和用户进程所占的虚拟内存比例是 1:3
 
-![image.png](./assets/1672324133290-image.png)
+![image.png](assets/1672324133290-image.png)
 
 当进程运行在内核空间时就处于内核态，而进程运行在用户空间时则处于用户态
 
@@ -353,13 +353,13 @@ Linux 系统里面有三个标准文件描述符。
 
 当应用程序执行 read 系统调用读取文件描述符（FD）的时候，如果这块数据已经存在于用户进程的页内存中，就直接从内存中读取数据。如果数据不存在，则先将数据从磁盘加载数据到内核缓冲区中，再从内核缓冲区拷贝到用户进程的页内存中。（两次拷贝，两次 user 和 kernel 的上下文切换）
 
-![image.png](./assets/1672324729616-image.png)
+![image.png](assets/1672324729616-image.png)
 
 ### 阻塞IO
 
 当使用 read 或 write 对某个文件描述符进行过读写时，如果当前 FD 不可读，系统就不会对其他的操作做出响应。从设备复制数据到内核缓冲区是阻塞的，从内核缓冲区拷贝到用户空间，也是阻塞的，直到 copy complete，内核返回结果，用户进程才解除block 的状态
 
-![image.png](./assets/1672324869492-image.png)
+![image.png](assets/1672324869492-image.png)
 
 如何解决？
 1、在服务端创建多个线程或者使用线程池，但是在高并发的情况下需要的线程会很
@@ -380,14 +380,14 @@ I/O 指的是网络 I/O。
 用程序（I/O Multiplexing Module）会把消息放入队列中，然后通过文件事件分派器（File
 event Dispatcher），转发到不同的事件处理器中
 
-![image.png](./assets/1672325020701-image.png)
+![image.png](assets/1672325020701-image.png)
 
 多路复用有很多的实现，以 select 为例，当用户进程调用了多路复用器，进程会被
 阻塞。内核会监视多路复用器负责的所有 socket，当任何一个 socket 的数据准备好了，
 多路复用器就会返回。这时候用户进程再调用 read 操作，把数据从内核缓冲区拷贝到用
 户空间
 
-![image.png](./assets/1672325090363-image.png)
+![image.png](assets/1672325090363-image.png)
 
 所以，I/O 多路复用的特点是通过一种机制一个进程能同时等待多个文件描述符，而这些文件描述符（套接字描述符）其中的任意一个进入读就绪（readable）状态，select()函数就可以返回
 
@@ -431,7 +431,7 @@ LFU，Least Frequently Used，最不常用，4.0 版本新增
 
 random，随机删除
 
-![image.png](./assets/1672326366590-image.png)
+![image.png](assets/1672326366590-image.png)
 
 如果没有符合前提条件的 key 被淘汰，那么 volatile-lru、volatile-random 、
 volatile-ttl 相当于 noeviction（不做内存回收）
@@ -615,7 +615,7 @@ auto-aof-rewrite-min-size 64mb
 
 重写过程中，AOF 文件被更改了怎么办？
 
-![image.png](./assets/1672329005198-image.png)
+![image.png](assets/1672329005198-image.png)
 重启 Redis 之后就会进行 AOF 文件的恢复
 
 ### AOF优势和劣势
