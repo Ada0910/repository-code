@@ -3,7 +3,7 @@
 解决分布式系统之间的消息传递问题，它能够屏蔽各种平台以及协议之间的特性，实现应用程序之间的协同
 
 如，一个会员的注册模块可以改造成这样
-![image.png](./assets/1678616699318-image.png)
+![image.png](assets/1678616699318-image.png)
 
 ## batch.size
 
@@ -34,7 +34,7 @@ consumer group是kafka提供的可扩展且具有容错性的消费者机制。�
 来说，这个firstTopic就类似于ActiveMQ中的topic概念。如右图所示，如果3个消费者都属于同一个
 group，那么此事firstTopic就是一个Queue的概念
 
-![image.png](./assets/1678795761107-image.png)
+![image.png](assets/1678795761107-image.png)
 
 ## enable.auto.commit
 
@@ -64,7 +64,7 @@ auto.offset.reset=none情况下，新的消费者加入以后，由于之前不�
 消息都有一个类别。物理上来说，不同的topic的消息是分开存储的，
 每个topic可以有多个生产者向它发送消息，也可以有多个消费者去消费其中的消息
 
-![image.png](./assets/1678798271275-image.png)
+![image.png](assets/1678798271275-image.png)
 
 ## Partition
 
@@ -78,7 +78,7 @@ auto.offset.reset=none情况下，新的消费者加入以后，由于之前不�
 设置合理，那么所有的消息会均匀的分布在不同的partition中，这样就有点类似数据库的分库分表的概
 念，把数据做了分片处理
 
-![image.png](./assets/1678798360660-image.png)
+![image.png](assets/1678798360660-image.png)
 
 ## Topic&Partition的存储
 
@@ -132,7 +132,7 @@ consumer，这些consumer属于一个consumer group，组内的所有消费者�
 group里面的consumer是怎么去分配该消费哪个分区里的数据的呢？如下图所示，3个分区，3个消费
 者，那么哪个消费者消分哪个分区？
 
-![image.png](./assets/1678810049701-image.png)
+![image.png](assets/1678810049701-image.png)
 
 ## consumer和partition的数量建议
 
@@ -259,7 +259,7 @@ leader选举算法比较简单，如果消费组内没有leader，那么第一�
 leader，如果这个时候leader消费者退出了消费组，那么重新选举一个leader，这个选举很随意，类似
 于随机算法
 
-![image.png](./assets/1678850080306-image.png)
+![image.png](assets/1678850080306-image.png)
 
 protocol_metadata: 序列化后的消费者的订阅信息
 leader_id： 消费组中的消费者，coordinator会选择一个座位leader，对应的就是member_id
@@ -281,7 +281,7 @@ coordinator手机到所有消费者的分配策略，组成一个候选集
 完成分区分配之后，就进入了Synchronizing Group State阶段，主要逻辑是向GroupCoordinator发送
 SyncGroupRequest请求，并且处理SyncGroupResponse响应，简单来说，就是leader将消费者对应
 的partition分配方案同步给consumer group 中的所有consumer
-![image.png](./assets/1678850220592-image.png)
+![image.png](assets/1678850220592-image.png)
 
 每个消费者都会向coordinator发送syncgroup请求，不过只有leader节点会发送分配方案，其他消费者
 只是打打酱油而已。当leader把方案发给coordinator以后，coordinator会把结果设置到
@@ -337,7 +337,7 @@ offset（称之为偏移量），它是消息在此分区中的唯一编号，ka
 序，offset的顺序不跨分区，即kafka只保证在同一个分区内的消息是有序的； 对于应用层的消费来
 说，每次消费一个消息并且提交以后，会保存当前消费到的最近的一个offset。那么offset保存在哪
 里
-![image.png](./assets/1678851565881-image.png)
+![image.png](assets/1678851565881-image.png)
 
 ### offset在哪里维护
 
@@ -390,7 +390,7 @@ sh kafka-topics.sh --create --zookeeper 127.0.0.1:2181 --replication-factor
 
 我们可以在/tmp/kafka-log路径下看到对应topic的副本信息了。我们通过一个图形的方式来表达。
 针对secondTopic这个topic的3个分区对应的3个副本
-![image.png](./assets/1678862112182-image.png)
+![image.png](assets/1678862112182-image.png)
 
 如何知道那个各个分区中对应的leader是谁呢
 在zookeeper服务器上，通过如下命令去获取对应分区的信息, 比如下面这个是获取secondTopic第1个
@@ -407,7 +407,7 @@ test_partition
 leader表示当前分区的leader是那个broker-id。下图中。绿色线条的表示该分区中的leader节点。其他
 节点就为follower
 
-![image.png](./assets/1678862446520-image.png)
+![image.png](assets/1678862446520-image.png)
 
 ## 副本的leader选举
 
@@ -444,7 +444,7 @@ leader副本所在的broker挂了以后，会从follower副本中选取新的lea
 延迟，导致follower副本中保存的消息略少于leader副本，但是只要没有超出阈值都可以容忍。但是如
 果一个follower副本出现异常，比如宕机、网络断开等原因长时间没有同步到消息，那这个时候，
 leader就会把它踢出去。kafka通过ISR集合来维护一个分区副本信息
-![image.png](./assets/1678862503805-image.png)
+![image.png](assets/1678862503805-image.png)
 一个新leader被选举并被接受客户端的消息成功写入。Kafka确保从同步副本列表中选举一个副本为
 leader；leader负责维护和跟踪ISR(in-Sync replicas ， 副本同步队列)中所有follower滞后的状态。当
 producer发送一条消息到broker后，leader写入消息并复制到所有follower。消息提交之后才被成功复
@@ -466,7 +466,7 @@ ISR表示目前“可用且消息量与leader相差不多的副本集合，这�
    查的定时任务，这个任务会定期检查当前时间与副本的lastCaughtUpTimeMs的差值是否大于参数
    replica.lag.time.max.ms 的值，如果大于，则会把这个副本踢出ISR集合
    
-   ![image.png](./assets/1678862543829-image.png)
+   ![image.png](assets/1678862543829-image.png)
 
 # **如何处理所有的Replica不工作的情况**
 
@@ -494,7 +494,7 @@ Replica都无法“活”过来了，或者数据都丢失了，这个Partition�
 
 下图中，深红色部分表示test_replica分区的leader副本，另外两个节点上浅色部分表示follower副本
 
-![image.png](./assets/1678872557804-image.png)
+![image.png](assets/1678872557804-image.png)
 
 Producer在发布消息到某个Partition时，
 
@@ -514,14 +514,14 @@ HW(HighWatermark)并且向Producer发送ACK。
 通过下面这幅图来表达LEO、HW的含义，随着follower副本不断和leader副本进行数据同步，follower 副本的LEO会主键后移并且追赶到leader副本，这个追赶上的判断标准是当前副本的LEO是否大于或者等于leader副本的HW，这个追赶上也会使得被踢出的follower副本重新加入到ISR集合中。
 
 另外，    假如说下图中的最右侧的follower副本被踢出ISR集合，也会导致这个分区的HW发生变化，变成了3
-![image.png](./assets/1678872644899-image.png)
+![image.png](assets/1678872644899-image.png)
 
 **初始状态**
 
 初始状态下，leader和follower的HW和LEO都是0，leader副本会保存remote LEO，表示所有follower LEO，也会被初始化为0，这个时候，producer没有发送消息。follower会不断地个leader发送FETCH    请求，但是因为没有数据，这个请求会被leader寄存，当在指定的时间之后会强制完成请求，这个时间   配置是(replica.fetch.wait.max.ms)，如果在指定时间内producer有消息发送过来，那么kafka会唤醒fetch请求，让leader继续处理
 
 数据的同步处理会分两种情况，这两种情况下处理方式是不一样的
-![image.png](./assets/1678872670007-image.png)
+![image.png](assets/1678872670007-image.png)
 
 第一种是leader处理完producer请求之后，follower发送一个fetch请求过来
 
@@ -532,7 +532,7 @@ HW(HighWatermark)并且向Producer发送ACK。
 #### **生产者发送一条消息**
 
 leader处理完producer请求之后，follower发送一个fetch请求过来。状态图如下
-![image.png](./assets/1678872689977-image.png)
+![image.png](assets/1678872689977-image.png)
 
 leader副本收到请求以后，会做几件事情
 
@@ -542,7 +542,7 @@ leader副本收到请求以后，会做几件事情
 #### **follower fetch****消息**
 
 follower 发送fetch请求，leader副本的处理逻辑是:
-![image.png](./assets/1678872708631-image.png)
+![image.png](assets/1678872708631-image.png)
 
 1. 读取log数据、更新remote LEO=0(follower还没有写入这条消息，这个值是根据follower的fetch
 
@@ -557,7 +557,7 @@ follower副本收到response以后
 2. 更新follower HW，本地的LEO和leader返回的HW进行比较取小的值，所以仍然是0
 
 第一次交互结束以后，HW仍然还是0，这个值会在下一次follower发起fetch请求时被更新
-![image.png](./assets/1678872722979-image.png)
+![image.png](assets/1678872722979-image.png)
 
 follower发第二次fetch请求，leader收到请求以后
 
@@ -588,7 +588,7 @@ min.insync.replicas=1 //设定ISR中的最小副本数是多少，默认值为1�
 置）， 并且acks参数设置为-1（表示需要所有副本确认）时，此参数才生效
 
 表达的含义是，至少需要多少个副本同步才能表示消息是提交的，所以，当min.insync.replicas=1 的时候，一旦消息被写入leader端log即被认为是“已提交”，而延迟一轮FETCH RPC更新HW值的设计使得follower  HW值是异步延迟更新的，倘若在这个过程中leader发生变更，那么成为新leader的follower的HW值就有可能是过期的，使得clients端认为是成功提交的消息被删除。
-![image.png](./assets/1678872750105-image.png)
+![image.png](assets/1678872750105-image.png)
 
 **producer****的****ack**
 acks配置表示producer发送消息到broker上以后的确认值。有三个可选项
@@ -654,7 +654,7 @@ kafka是通过分段的方式将Log分为多个LogSegment，LogSegment是一个�
 log.segment.bytes=107370   (设置分段大小),默认是1gb，我们把这个值调小以后，可以看到日志分段的效果
 
 抽取其中3个分段来进行分析
-![image.png](./assets/1678872794859-image.png)
+![image.png](assets/1678872794859-image.png)
 
 segment ﬁle由2大部分组成，分别为index ﬁle和data ﬁle，此2个文件一一对应，成对出现，后缀".index"和“.log”分别表示为segment索引文件、数据文件.
 
@@ -683,7 +683,7 @@ sh kafka-run-class.sh kafka.tools.DumpLogSegments --files /tmp/kafka-logs/test-
 ```
 
 查看索引内容：
-![image.png](./assets/1678872834032-image.png)
+![image.png](assets/1678872834032-image.png)
 
 如图所示，index中存储了索引以及物理偏移量。    log存储了消息的内容。索引文件的元数据执行对应数据文件中message的物理偏移地址。举个简单的案例来说，以[4053,80899]为例，在log文件中，对应的是第4053条记录，物理偏移量（position）为80899. position是ByteBuﬀer的指针位置
 
@@ -725,7 +725,7 @@ oﬀset和position这两个前面已经讲过了、createTime表示创建时间�
 ### **日志压缩策略**
 
 Kafka还提供了“日志压缩（Log Compaction）”功能，通过这个功能可以有效的减少日志文件的大小，缓解磁盘紧张的情况，在很多实际场景中，消息的key和value的值之间的对应关系是不断变化的，就像   数据库中的数据会不断被修改一样，消费者只关心key对应的最新的value。因此，我们可以开启kafka 的日志压缩功能，服务端会在后台启动启动Cleaner线程池，定期将相同的key进行合并，只保留最新的value值。日志的压缩原理是
-![image.png](./assets/1678872981323-image.png)
+![image.png](assets/1678872981323-image.png)
 
 
 
@@ -744,14 +744,14 @@ Kafka还提供了“日志压缩（Log Compaction）”功能，通过这个功�
 ▪ 应用程序将数据写回到内核空间到socket缓存中
 
 ▪ 操作系统将数据从socket缓冲区复制到网卡缓冲区，以便将数据经网络发出
-![image.png](./assets/1678872995683-image.png)
+![image.png](assets/1678872995683-image.png)
 
 
 
 通过“零拷贝”技术，可以去掉这些没必要的数据复制操作，同时也会减少上下文切换次数。现代的unix    操作系统提供一个优化的代码路径，用于将数据从页缓存传输到socket；在Linux中，是通过sendﬁle系统调用来完成的。Java提供了访问这个系统调用的方法：FileChannel.transferTo API
 
 使用sendﬁle，只需要一次拷贝就行，允许操作系统将数据直接从页缓存发送到网络上。所以在这个优    化的路径中，只有最后一步将数据拷贝到网卡缓存中是需要的
-![image.png](./assets/1678873007082-image.png)
+![image.png](assets/1678873007082-image.png)
 
 
 

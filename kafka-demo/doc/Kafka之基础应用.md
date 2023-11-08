@@ -12,7 +12,7 @@ Kafka是一款分布式消息发布和订阅系统，它的特点是高性能、
 
 # 架构
 
-![image.png](./assets/image.png)
+![image.png](assets/image.png)
 
 ## 名词解释
 

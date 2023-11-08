@@ -1,4 +1,4 @@
-package com.ada.kafka.simple;
+package com.ada.simple.simple;
 
 import org.apache.kafka.clients.producer.*;
 import org.apache.kafka.common.serialization.IntegerSerializer;
