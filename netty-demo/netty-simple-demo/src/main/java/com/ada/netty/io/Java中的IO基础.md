@@ -28,7 +28,7 @@
 
 # BIO 和NIO的区别
 
-![image.png](./assets/image.png)
+![image.png](assets/image.png)
 
 
 
