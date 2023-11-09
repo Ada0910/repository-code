@@ -1,8 +1,8 @@
 package com.ada.spring.service.impl;
 
+import com.ada.spring.anno.MyService;
 import com.ada.spring.service.IModifyService;
-import com.gupaoedu.vip.spring.demo.service.IModifyService;
-import com.gupaoedu.vip.spring.formework.annotation.GPService;
+
 
 /**
  * 增删改业务
