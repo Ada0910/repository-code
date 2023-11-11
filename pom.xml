@@ -8,6 +8,7 @@
     <packaging>pom</packaging>
     <description>个人的代码仓库</description>
     <modules>
+        <module>apollo-demo</module>
         <module>distribute-demo</module>
         <module>jvm-demo</module>
         <module>multi-thread-demo</module>
