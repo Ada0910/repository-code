@@ -17,7 +17,7 @@
         <module>software-design-demo</module>
         <module>zookeeper-demo</module>
         <module>spring-demo</module>
-        <module>dubbo-demo</module>
+        <!--<module>dubbo-demo</module>-->
         <module>rabbitmq-demo</module>
         <module>redis-demo</module>
         <module>kafka-demo</module>
