@@ -8,6 +8,7 @@
     <packaging>pom</packaging>
     <description>个人的代码仓库</description>
     <modules>
+        <module>apollo-demo</module>
         <module>distribute-demo</module>
         <module>jvm-demo</module>
         <module>multi-thread-demo</module>
@@ -16,7 +17,7 @@
         <module>software-design-demo</module>
         <module>zookeeper-demo</module>
         <module>spring-demo</module>
-        <module>dubbo-demo</module>
+        <!--<module>dubbo-demo</module>-->
         <module>rabbitmq-demo</module>
         <module>redis-demo</module>
         <module>kafka-demo</module>
