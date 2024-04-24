@@ -21,17 +21,22 @@ package com.ada.basis.inner.anonymous;
  */
 public class Outer {
 
-	public final String name = "外部类！";
+	private final String name = "外部类！";
 
 
 	//匿名内部类
 	private Runnable runnable = new Runnable() {
+		private String name = "匿名内部类name";
 
-		public void run() {}
+		public void run() {
+			System.out.println("匿名内部类run方法:" + this.name);
+		}
 	};
 
 	public static void main(String[] args) {
 		Outer outer = new Outer();
+		System.out.println(outer.name);
+		outer.runnable.run();
 
 	}
 }
