@@ -82,7 +82,11 @@ public class Outer {
 		System.out.println(outer.getAge());
 		System.out.println(outer.getName());
 
-		//内部类实例化
+
+		/**
+		 * 外部类访问内部类：
+		 *
+		 */
 		Outer.Inner inner = outer.new Inner();
 		System.out.println(inner.getAge());
 		System.out.println(inner.getHeight());

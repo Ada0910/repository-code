@@ -41,7 +41,14 @@ public class Outer {
 	}
 
 	public static void main(String[] args) {
+		/**
+		 * 外部调用内部
+		 */
 		Outer outer = new Outer();
 		outer.getName();
+
+		/**
+		 * 内部调用外部，直接调用
+		 */
 	}
 }

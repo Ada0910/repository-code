@@ -25,12 +25,15 @@ public class Outer {
 
 	private int weight = 70;
 
+
 	public void getLocalClass() {
 		//局部内部类，前面不能加权限修饰符
 		class Inner {
 			public String name = "局部内部类";
 
 			private int age = 17;
+
+			private int height = Outer.this.age;
 			
 			
 			//可以用这种格式获取外部类的信息
@@ -45,6 +48,20 @@ public class Outer {
 
 	public static void main(String[] args) {
 		Outer outer = new Outer();
+		/**
+		 * 外部类访问内部类
+		 */
 		outer.getLocalClass();
+
+		/**
+		 * 内部类访问外部类
+		 *
+		 * 内部类可以直接访问外部类的变量和方法
+		 *
+		 * why
+		 * 可以把内部类看成是外部类的一部分，因此平常类里面的变量和方法不就是可以互相访问
+		 */
+
 	}
+
 }
