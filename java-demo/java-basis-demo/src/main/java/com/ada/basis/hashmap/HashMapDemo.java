@@ -1,4 +1,4 @@
-package com.ada.basis.utils;
+package com.ada.basis.hashmap;
 
 /**
  *
@@ -83,6 +83,8 @@ public class HashMapDemo {
 		//System.out.println("after containsValue(李四)：" + map.containsValue("李四"));
 		//System.out.println(map.replace("si", "李四2"));
 		//System.out.println("after map.replace(si, 李四2):" + map);
+
+
 	}
 
 }

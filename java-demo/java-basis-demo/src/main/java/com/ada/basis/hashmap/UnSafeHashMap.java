@@ -1,4 +1,4 @@
-package com.ada.basis.utils;
+package com.ada.basis.hashmap;
 
 import java.util.HashMap;
 import java.util.UUID;
