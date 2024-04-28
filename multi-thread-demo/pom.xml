@@ -19,6 +19,6 @@
         <java.version>1.8</java.version>
     </properties>
     <modules>
-        <module>simple-demo</module>
+        <module>thread-simple-demo</module>
     </modules>
 </project>
