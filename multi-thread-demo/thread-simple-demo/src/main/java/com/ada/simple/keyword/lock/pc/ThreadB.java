@@ -1,4 +1,4 @@
-package com.ada.multi.thread.keyword.lock.pc;
+package com.ada.simple.keyword.lock.pc;
 
 /**
  *

@@ -1,4 +1,4 @@
-package com.ada.multi.thread.base.atom;
+package com.ada.simple.base.atom;
 
 /**
  *
