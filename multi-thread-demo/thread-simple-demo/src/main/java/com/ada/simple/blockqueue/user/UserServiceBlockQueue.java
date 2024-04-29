@@ -1,4 +1,4 @@
-package com.ada.multi.thread.aqs.blockqueue.user;
+package com.ada.simple.blockqueue.user;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
@@ -12,6 +12,14 @@ import java.util.concurrent.Executors;
  * 就是用户注册的时候，在注册成功以后发放积分
  *
  * 改造后的代码（用阻塞队列）
+ *
+ * 常见的阻塞队列：
+ *
+ * ArrayBlockingQueue: 有界阻塞
+ * LinkedBlockingQueue: 有界阻塞
+ *
+ * PriorityBlockingQueue：支持优先级排序无界阻塞队列
+ * DelayQueue：优先级队列实现的无界阻塞队列
  * <p/>
  *
  * @Date: 2022/10/4 12:02

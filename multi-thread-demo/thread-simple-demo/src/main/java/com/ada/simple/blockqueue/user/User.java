@@ -1,4 +1,4 @@
-package com.ada.multi.thread.aqs.blockqueue.user;
+package com.ada.simple.blockqueue.user;
 
 /**
  *
