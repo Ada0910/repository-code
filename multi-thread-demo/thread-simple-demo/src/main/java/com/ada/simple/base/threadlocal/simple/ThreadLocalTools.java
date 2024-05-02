@@ -1,4 +1,4 @@
-package com.ada.multi.thread.base.threadlocal.simple;
+package com.ada.simple.base.threadlocal.simple;
 
 import java.util.Date;
 

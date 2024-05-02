@@ -1,4 +1,4 @@
-package com.ada.multi.thread.base.unsafe;
+package com.ada.simple.base.unsafe;
 
 import sun.misc.Unsafe;
 

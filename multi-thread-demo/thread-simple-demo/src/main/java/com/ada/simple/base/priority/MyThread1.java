@@ -1,4 +1,4 @@
-package com.ada.multi.thread.base.priority;
+package com.ada.simple.base.priority;
 
 /**
  *

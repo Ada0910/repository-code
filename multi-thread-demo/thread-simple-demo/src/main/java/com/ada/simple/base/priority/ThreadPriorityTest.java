@@ -1,4 +1,4 @@
-package com.ada.multi.thread.base.priority;
+package com.ada.simple.base.priority;
 
 /**
  *
@@ -18,7 +18,7 @@ public class ThreadPriorityTest {
 	public static void main(String[] args) {
 		System.out.println("主线程的优先级是："+ Thread.currentThread().getPriority());
 		//放开注释也能看到优先级被继承
-		//Thread.currentThread().setPriority(6);
+		Thread.currentThread().setPriority(6);
 		System.out.println("主线程的优先级是："+ Thread.currentThread().getPriority());
 		MyThread1 thread1 = new MyThread1();
 		thread1.start();

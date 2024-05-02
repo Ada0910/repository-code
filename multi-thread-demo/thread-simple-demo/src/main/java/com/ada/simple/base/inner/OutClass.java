@@ -1,4 +1,4 @@
-package com.ada.multi.thread.base.inner;
+package com.ada.simple.base.inner;
 
 /**
  *

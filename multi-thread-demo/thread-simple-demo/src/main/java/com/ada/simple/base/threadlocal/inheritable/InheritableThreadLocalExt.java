@@ -1,4 +1,4 @@
-package com.ada.multi.thread.base.threadlocal.inheritable;
+package com.ada.simple.base.threadlocal.inheritable;
 
 import java.util.Date;
 
