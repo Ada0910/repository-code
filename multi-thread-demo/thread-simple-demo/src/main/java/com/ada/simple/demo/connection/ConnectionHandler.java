@@ -1,4 +1,4 @@
-package com.ada.multi.thread.demo.connection;
+package com.ada.simple.demo.connection;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;

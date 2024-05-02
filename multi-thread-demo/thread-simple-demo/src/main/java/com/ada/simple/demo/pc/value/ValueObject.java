@@ -1,4 +1,4 @@
-package com.ada.multi.thread.demo.pc.value;
+package com.ada.simple.demo.pc.value;
 
 /**
  *

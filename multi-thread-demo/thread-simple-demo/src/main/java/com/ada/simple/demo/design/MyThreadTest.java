@@ -1,4 +1,4 @@
-package com.ada.multi.thread.demo.design;
+package com.ada.simple.demo.design;
 
 import java.util.concurrent.CountDownLatch;
 

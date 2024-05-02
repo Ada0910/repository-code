@@ -1,4 +1,4 @@
-package com.ada.multi.thread.demo.connection;
+package com.ada.simple.demo.connection;
 
 import java.sql.Connection;
 import java.util.concurrent.CountDownLatch;
@@ -8,7 +8,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  * <b><code></code></b>
  * <p/>  
- *
+ * 连接池的demo
  * <p/>
  *
  * @Date: 2023/9/20 23:39
