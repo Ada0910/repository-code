@@ -1,4 +1,4 @@
-package com.ada.simple.communication.join;
+package com.ada.simple.status.join;
 
 /**
  *

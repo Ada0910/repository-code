@@ -8,7 +8,7 @@ import java.io.PipedWriter;
  *
  * <b><code></code></b>
  * <p/>  
- *
+ * 通过管道进行通信
  * <p/>
  *
  * @Date: 2023/8/20 16:42
