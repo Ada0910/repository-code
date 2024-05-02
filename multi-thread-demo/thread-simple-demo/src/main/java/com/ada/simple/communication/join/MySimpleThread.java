@@ -1,4 +1,4 @@
-package com.ada.multi.thread.communication.join;
+package com.ada.simple.communication.join;
 
 /**
  *

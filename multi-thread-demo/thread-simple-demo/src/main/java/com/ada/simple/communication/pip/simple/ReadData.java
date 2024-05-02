@@ -1,4 +1,4 @@
-package com.ada.multi.thread.communication.pip.simple;
+package com.ada.simple.communication.pip.simple;
 
 import java.io.PipedInputStream;
 import java.io.PipedReader;

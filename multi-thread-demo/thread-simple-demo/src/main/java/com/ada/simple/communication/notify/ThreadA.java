@@ -1,4 +1,4 @@
-package com.ada.multi.thread.communication.notify;
+package com.ada.simple.communication.notify;
 
 /**
  *

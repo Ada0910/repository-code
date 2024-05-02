@@ -1,4 +1,4 @@
-package com.ada.multi.thread.communication.wait;
+package com.ada.simple.communication.wait;
 
 /**
  *
