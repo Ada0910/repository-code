@@ -1,4 +1,4 @@
-package com.ada.distributed.session.controller;
+package com.ada.distributed.session2.controller;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;

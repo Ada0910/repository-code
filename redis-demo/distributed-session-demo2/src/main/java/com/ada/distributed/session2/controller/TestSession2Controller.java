@@ -1,4 +1,4 @@
-package com.ada.distributed.session.controller;
+package com.ada.distributed.session2.controller;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -19,7 +19,7 @@ import javax.servlet.http.HttpSession;
  *
  */
 @Controller
-public class TestSessionController {
+public class TestSession2Controller {
 
 	@Value("${server.port}")
 	private Integer projectPort;// 项目端口

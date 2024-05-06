@@ -1,4 +1,4 @@
-package com.ada.distributed.session.config;
+package com.ada.distributed.session2.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

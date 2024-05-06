@@ -1,4 +1,4 @@
-package com.ada.distributed.session.config;
+package com.ada.distributed.session2.config;
 
 import org.springframework.session.web.context.AbstractHttpSessionApplicationInitializer;
 
@@ -6,8 +6,6 @@ import org.springframework.session.web.context.AbstractHttpSessionApplicationIni
  *
  * <b><code></code></b>
  * <p/>  
- * 继承这个类作用：
- * 应用程序启动时配置和初始化HTTP会话
  *
  * <p/>
  *

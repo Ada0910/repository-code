@@ -1,4 +1,4 @@
-package com.ada.distributed.session;
+package com.ada.distributed.session2;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

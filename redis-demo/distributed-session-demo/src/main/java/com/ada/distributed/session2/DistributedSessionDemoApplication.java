@@ -1,4 +1,4 @@
-package com.ada.distributed.session;
+package com.ada.distributed.session2;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class DistributedSessionDemoApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DistributedSessionDemoApplication.class, args);
+		SpringApplication.run(DistributedSession2DemoApplication.class, args);
 	}
 
 }
