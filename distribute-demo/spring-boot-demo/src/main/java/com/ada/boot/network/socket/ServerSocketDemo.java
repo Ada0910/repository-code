@@ -24,10 +24,10 @@ import java.util.concurrent.Executors;
 public class ServerSocketDemo {
 	public static void main(String[] args) throws Exception {
 
-		// simpleSocketServer();
+		 simpleSocketServer();
 
 
-		threadPoolSocketServer();
+		//threadPoolSocketServer();
 
 
 	}
