@@ -12,7 +12,11 @@ import org.springframework.context.ApplicationContext;
  *
  * <b><code></code></b>
  * <p/>  
+ *  format-spring-boot-starter 测试类
  *
+ *  1.引包
+ *  2.配置文件（application.properties）  ada.format.info.age等
+ *  3.使用
  * <p/>
  *
  * @Date: 2024/5/19 16:09

@@ -1,4 +1,4 @@
-package com.ada.spi.spring;
+package com.ada.boot.starter;
 
 import com.ada.starter.split.ISplitService;
 import org.junit.jupiter.api.Test;
@@ -8,21 +8,21 @@ import org.springframework.boot.test.context.SpringBootTest;
 /**
  *
  * <b><code></code></b>
+ * <p/>  
+ *  ada-spring-boot-starter 测试类
+ *
+ *  1.引包
+ *  2.配置文件（application.properties）  ada.age等
+ *  3.使用
  * <p/>
- * Spring Boot starter 自定义测试类
  *
- * 如何自定一个starter，可以引用ada-spring-boot-starter模块
- *
- * <p/>
- *
- * @Date: 2023/2/26 13:45
+ * @Date: 2024/5/19 18:50
  * @Author xwn
  * @Version 1.0.0.1
  *
  */
 @SpringBootTest
-public class TestSpringBootSpi {
-
+public class AdaSpringBootStarterTest {
 	@Autowired
 	ISplitService splitService;
 
