@@ -1,10 +1,12 @@
 package com.ada.boot.starter;
 
-import com.ada.boot.boot.starter.FormatTemplate;
-import com.ada.boot.boot.starter.config.Properties;
+
+import com.ada.format.starter.FormatTemplate;
+import com.ada.format.starter.config.Properties;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
 
 /**
  *
@@ -22,10 +24,27 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class FormatTemplateTest {
 
 	Properties properties = new Properties();
+	@Autowired
+	private ApplicationContext context;
+
+	/**
+	 * 打印出Spring Boot加载的类有哪些
+	 */
+	@Test
+	public void testPrintLoadedClasses() {
+		String[] beanNames = context.getBeanDefinitionNames();
+		for (String beanName : beanNames) {
+			Object bean = context.getBean(beanName);
+			System.out.println("==========="+bean.getClass().getName());
+		}
+	}
 
 	@Autowired
 	public FormatTemplate template;
 
+	/**
+	 * 测试format-spring-boot-starter
+	 */
 	@Test
 	public void format() {
 		String s = template.doFormat(properties);
