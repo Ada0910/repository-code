@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.ada</groupId>
-    <artifactId>rocketmq</artifactId>
+    <artifactId>rocketmq-simple-demo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>rocketmq-simple-demo</name>
     <description>rocketmq-simple-demo</description>
