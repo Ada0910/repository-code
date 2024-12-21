@@ -1,3 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.dreamstudio.elasticjob.autoconfigure.RegCentreAutoConfiguration,\
-io.dreamstudio.elasticjob.autoconfigure.JobAutoConfiguration
